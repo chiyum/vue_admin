@@ -4,6 +4,7 @@ import eslintPlugin from "vite-plugin-eslint";
 import html from "vite-plugin-html";
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
 import { resolve } from "path";
+import AutoImport from "unplugin-auto-import/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -13,6 +14,17 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue({
         template: { transformAssetUrls },
+      }),
+      AutoImport({
+        imports: ["vue", "vue-router", "pinia"], // 自動導入的模塊
+        include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
+        dts: "src/auto-imports.d.ts",
+        // eslint报错解决
+        eslintrc: {
+          enabled: true, // Default `false`
+          filepath: "./.eslintrc-auto-import.json", // Default `./.eslintrc-auto-import.json`
+          globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+        },
       }),
       quasar({
         sassVariables: "src/quasar-variables.sass",
