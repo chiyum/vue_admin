@@ -1,0 +1,19 @@
+@import "css/tailwind.css";
+@import "css/animate.css";
+@import "scss/layout.scss";
+@import "scss/home.scss";
+@import "scss/demo.scss";
+
+html,
+body {
+  // height: 100%;
+  font-family:
+    "Outfit",
+    "微軟正黑體",
+    Microsoft JhengHei,
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
+  overflow-x: hidden;
+}
