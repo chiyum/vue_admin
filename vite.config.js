@@ -43,6 +43,36 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       minify: "terser",
+      rollupOptions: {
+        output: {
+          // 定義資源文件的輸出路徑和命名規則
+          assetFileNames: (assetInfo) => {
+            let extType = assetInfo.name.split(".").at(1); // 獲取文件的擴展名
+            if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+              extType = "img"; // 如果是圖片文件，將擴展名設置為 "img"
+            }
+            return `assets/${extType}/[name]-[hash][extname]`; // 將資源文件輸出到對應的文件夾
+          },
+          // 定義代碼塊的輸出路徑和命名規則
+          chunkFileNames: "admin_assets/js/[name]-[hash].js",
+          entryFileNames: "admin_assets/js/[name]-[hash].js",
+          // 手動定義代碼分塊策略
+          manualChunks(id) {
+            if (id.includes("node_modules")) {
+              // 如果模塊來自 node_modules，將其單獨打包，並以其第一級目錄命名
+              return id
+                .toString()
+                .split("node_modules/")[1]
+                .split("/")[0]
+                .toString();
+            }
+            if (id.includes("pages")) {
+              // 如果模塊來自 views 目錄，將其單獨打包為 "views"
+              return "pages";
+            }
+          },
+        },
+      },
       terserOptions: {
         compress: {
           drop_console: true,
