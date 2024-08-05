@@ -1,5 +1,5 @@
 import router from "@/router";
-import i18n from "@/i18n";
+import i18n from "@/services/i18n-service";
 import { useAuthStore } from "@/store/auth-store";
 import swal from "@/plugins/sweetalert";
 const redirect = {
