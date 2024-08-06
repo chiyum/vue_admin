@@ -33,6 +33,7 @@ for (let path in files) {
       layout: defaults[path].default.layout || "layout-default",
       // 是否要顯示在左側導航欄
       isHideSidebar: defaults[path].default.isHideSidebar || false,
+      sidebarSort: defaults[path].default.sidebarSort || null, // 左側導航欄排序
       i18Name: defaults[path].default.i18Name || null, // i18n用名稱
       // 其他設定檔
       ...meta,

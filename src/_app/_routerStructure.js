@@ -10,6 +10,36 @@ function removeAfterColon(path) {
   return processedSegments.filter((segment) => segment !== "").join("/");
 }
 
+function sortRoutes(routes) {
+  routes.sort((a, b) => {
+    // 首先檢查 sidebarSort
+    const sortA = a.meta?.sidebarSort;
+    const sortB = b.meta?.sidebarSort;
+
+    if (sortA !== null && sortB !== null) {
+      return sortA - sortB; // 較小的 sidebarSort 值排在前面
+    }
+    if (sortA !== null) return -1; // 如果只有 a 有 sidebarSort，a 排在前面
+    if (sortB !== null) return 1; // 如果只有 b 有 sidebarSort，b 排在前面
+
+    // 如果 sidebarSort 都為 null，則檢查 children
+    if (a.children && !b.children) return -1;
+    if (!a.children && b.children) return 1;
+
+    // 如果以上條件都不滿足，保持原有順序
+    return 0;
+  });
+
+  // 遞歸排序子路由
+  routes.forEach((route) => {
+    if (route.children && route.children.length > 0) {
+      route.children = sortRoutes(route.children);
+    }
+  });
+
+  return routes;
+}
+
 export function createSidebarStructure(modules) {
   const sidebar = [];
   const pathMap = {};
@@ -83,8 +113,7 @@ export function createSidebarStructure(modules) {
   }
 
   cleanupChildren(sidebar);
-  console.log(sidebar);
-  return sidebar;
+  return sortRoutes(sidebar);
 }
 
 export default createSidebarStructure;
