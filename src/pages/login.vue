@@ -184,6 +184,10 @@ const { changeI18nLang } = appStore;
 
 defineOptions({
   layout: "layout-login",
+  isInSidebar: false,
+  // customOptions: {
+  //   icon: "login",
+  // },
 });
 
 const router = useRouter();

@@ -4,7 +4,7 @@ import { LANG_LIST } from "@/constants/lang";
 import { useI18n } from "@/services/i18n-service";
 import stroageProvider from "@/services/storage-service";
 
-export const useAppStore = defineStore("counter", () => {
+export const useAppStore = defineStore("appStore", () => {
   const { setLocale, locale } = useI18n();
   const { provider: storage } = stroageProvider;
   const langs = ref(LANG_LIST);

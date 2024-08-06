@@ -1,29 +1,49 @@
-/* glob導入的為相對路徑(動態路徑) globEager則為絕對路徑(靜態路徑) */
+import routerStructure from "./_routerStructure";
 const files = import.meta.glob("../pages/**/*.vue");
 const defaults = import.meta.glob("../pages/**/*.vue", { eager: true });
 const modules = [];
+
 for (let path in files) {
   /* 抓取路由 */
   const name = path.replace("../pages", "").toLowerCase().replace(".vue", "");
   let currentPath = name;
+
   /* /index => / */
   currentPath = currentPath.replace(/\/index$/, "");
-  /* /_id => /:id  動態路由*/
-  currentPath = currentPath.replace(/\/_+/g, "/:");
+
+  console.log(currentPath, /(\w+)_([^/]+)(?=\/|$)/.test(currentPath));
+  /* 處理動態路由 */
+  currentPath = currentPath.replace(
+    /(\w+)_([^/]+)(?=\/|$)/g,
+    (match, p1, p2) => {
+      console.log(match, p1, p2);
+      console.log(`${p1}/:${p2}`);
+      return `${p1}/:${p2}`;
+    }
+  );
+
   /* 上傳路由 */
+  const customOption = defaults[path].default?.customOptions ?? {};
+  const meta = Object.keys(customOption).reduce((finalMeta, key) => {
+    return { ...finalMeta, [key]: key, value: customOption[key] };
+  }, {});
+
   modules.push({
-    path: currentPath, //路由
-    name: currentPath, //路由名稱
+    path: currentPath, // 路由
+    name: currentPath, // 路由名稱
     meta: {
-      //頁面layout
+      // 頁面layout
       layout: defaults[path].default.layout || "layout-default",
-      title: defaults[path].default?.title ?? "app.project.title",
-      header: defaults[path].default?.header ?? "header-default",
-      scroll: defaults[path].default?.noScroll ?? false,
-      // inSidebar: defaults[path].default?.inSidebar ?? true, // 後續自動新增sidebar
+      // 是否要顯示在左側導航欄
+      isInSidebar: defaults[path].default.isInSidebar || false,
+      i18Name: defaults[path].default.i18Name || null, // i18n用名稱
+      // 其他設定檔
+      ...meta,
     },
     component: files[path], //頁面component
   });
 }
+
+export const drawerRouters = routerStructure(modules);
 
 export default modules;

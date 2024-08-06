@@ -8,6 +8,8 @@ import jquery from "@/plugins/jquery";
 import VueLazyLoad from "vue3-lazyload";
 import "@quasar/extras/material-icons/material-icons.css";
 import "quasar/src/css/index.sass";
+// Import icon libraries
+import "@quasar/extras/material-icons/material-icons.css";
 /** _app */
 import layouts from "@/_app/layouts";
 import components from "@/_app/components";

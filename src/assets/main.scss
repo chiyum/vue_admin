@@ -3,6 +3,11 @@
 @import "scss/layout.scss";
 @import "scss/home.scss";
 @import "scss/login.scss";
+@import "scss/setting.scss";
+
+:root {
+  --globaldark:#423e4e
+}
 
 html,
 body {
@@ -17,6 +22,362 @@ body {
     sans-serif;
   overflow-x: hidden;
 }
+
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.default-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 35px;
+  color: #666;
+  border-radius: 20px;
+  box-shadow: 0 0 20px 0 #d9d9d9;
+  cursor: pointer;
+  &--active {
+    background: linear-gradient(90deg, #263a59 0%, #4fa2f7 100%), linear-gradient(#4872a7, #4872a7);
+    color: #fff;
+  }
+}
+
+.mouse-pointer {
+  cursor: pointer;
+}
+
+.dialog-inputs-card {
+  display: flex;
+  flex-direction: column;
+  &-col {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.pc-table-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  &--on-top {
+    align-items: flex-start;
+  }
+  &--on-between {
+    justify-content: space-between;
+  }
+  &-items {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    .deposit-withdrawal-date-btns {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0;
+      white-space: nowrap;
+    }
+  }
+}
+
+.text-hide {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.record-dialog {
+  .q-card {
+    // width: 600px;
+    height: 100%;
+    .q-table__container {
+      height: 100% !important;
+    }
+    .user-interface-main {
+      height: 100%;
+    }
+    .q-card-main {
+      height: 90%;
+    }
+  }
+}
+
+.backwater-dialog {
+  .q-card {
+    width: 500px;
+  }
+}
+
+.lottery-record-dialog {
+  .q-card {
+    // width: 600px;
+    height: 100%;
+    .q-table__container {
+      height: 100% !important;
+    }
+    .user-interface-main {
+      height: 100%;
+    }
+    .q-card-main {
+      height: 86.5%;
+    }
+  }
+}
+
+.robot-record-dialog {
+  .q-card {
+    // width: 600px;
+    height: 100%;
+    .q-table__container {
+      height: 100% !important;
+    }
+    .user-interface-main {
+      height: 100%;
+    }
+    .q-card-main {
+      height: 83.5%;
+      overflow: scroll;
+    }
+  }
+}
+
+.table-interface {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0rem 1rem 0.5rem;
+  // padding-right: 0.1rem;
+  &-header {
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    margin-bottom: 10px;
+    min-height: 60px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    gap: 0.5rem;
+    &--mobile {
+      display: none;
+    }
+    &--border-none-state {
+      align-items: stretch;
+      padding: 0;
+      margin-bottom: 0;
+      margin: 0.5rem 0;
+      border: none;
+    }
+    &--border-none-mobile-state {
+      justify-content: flex-start;
+      align-items: center;
+      // flex-wrap: wrap;
+      padding: 0;
+      margin-bottom: 0;
+      margin: 0.5rem 0;
+      border: none;
+    }
+    &-content {
+      display: flex;
+    }
+    &-user {
+      display: flex;
+      align-items: center;
+      &-item {
+        margin-left: 1rem;
+        &:nth-child(1) {
+          margin-left: 0;
+        }
+      }
+      &-select {
+        width: 125px;
+      }
+    }
+    &-proxy {
+      &-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+    }
+    &-robot {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      &-search {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        padding-bottom: 0px;
+        border-radius: 3px 3px 0px 0px;
+        box-shadow:
+          0 1px 5px rgba(0, 0, 0, 0.2),
+          0 2px 2px rgba(0, 0, 0, 0.14),
+          0 3px 1px -2px rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+
+  &-main {
+    flex-grow: 1;
+    &--noheader {
+      margin-top: 1rem;
+    }
+  }
+}
+
+.game-result-icon {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  margin: auto 0;
+  background: url("../assets/game/icon2.78a93483.png") no-repeat;
+  background-size: 581px 628px;
+  text-align: center;
+  $max: 9;
+  @for $i from 0 through $max {
+    &-#{$i} {
+      background-position-x: -($i * 44px);
+    }
+  }
+}
+
+.cutsom-dialog {
+  &-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.game-result-ball-icon {
+  width: 30px;
+  height: 30px;
+  background-size: cover !important;
+  $max: 9;
+  @for $i from 0 through $max {
+    &-#{$i} {
+      background: url("../assets/game/ball-#{$i}.png") no-repeat;
+    }
+  }
+}
+
+div[data-num] {
+  width: 21px;
+  height: 21px;
+  color: white;
+  border-radius: 3px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+
+  &[data-num="0"] {
+    background: #fef502;
+  }
+
+  &[data-num="1"] {
+    background: #008fff;
+  }
+
+  &[data-num="2"] {
+    background: #4b4b4b;
+  }
+
+  &[data-num="3"] {
+    background: #ff7601;
+  }
+
+  &[data-num="4"] {
+    background: #7cfdfe;
+  }
+
+  &[data-num="5"] {
+    background: #5233ff;
+  }
+
+  &[data-num="6"] {
+    background: #e4e4e4;
+  }
+
+  &[data-num="7"] {
+    background: #fe2500;
+  }
+
+  &[data-num="8"] {
+    background: #780c00;
+  }
+
+  &[data-num="9"] {
+    background: #0ebe03;
+  }
+
+  &[data-num="-1"] {
+    background: #0ebe03;
+  }
+}
+
+.rwd-element {
+  &--mobile {
+    display: none;
+  }
+  &--pc {
+    display: flex;
+  }
+}
+
+.subAccount-select {
+  padding: 0 12px;
+  border: 1px solid #c2c2c2;
+  border-radius: 4px;
+}
+
+.permission-tip {
+  color: #7b7b7b;
+  font-size: 12px;
+}
+
+.role-add-dialog-card {
+  .q-card-main {
+    height: 92%;
+  }
+}
+
+.no-auto-complete {
+  -webkit-autofill,
+  -webkit-autofill:hover,
+  -webkit-autofill:focus,
+  -webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+  -webkit-text-security: "disc";
+  input {
+    -webkit-text-security: "disc" !important;
+    -webkit-autofill,
+    -webkit-autofill:hover,
+    -webkit-autofill:focus,
+    -webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s !important;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .rwd-element {
+    &--mobile {
+      display: flex;
+    }
+    &--pc {
+      display: none;
+    }
+  }
+}
+
 
 
 // global styles
