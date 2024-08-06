@@ -11,7 +11,7 @@ for (let path in files) {
   /* /index => / */
   currentPath = currentPath.replace(/\/index$/, "");
 
-  /* 處理動態路由 TODO: 暫時不支援請勿使用 */
+  /* 處理動態路由 */
   currentPath = currentPath.replace(
     /(\w+)_([^/]+)(?=\/|$)/g,
     (match, p1, p2) => {

@@ -32,9 +32,14 @@ export function createSidebarStructure(modules) {
       }
 
       if (isDynamic) {
+        const parentPath = fullPath.slice(0, -part.length - 1);
+        pathMap[fullPath] = pathMap[parentPath].path = `/${removeAfterColon(
+          fullPath
+        )}/default`;
         // 如果是動態路由，使用 'default' 作為路徑的一部分
-        fullPath = `${removeAfterColon(fullPath)}/default`;
+        fullPath = `/${removeAfterColon(fullPath)}/default`;
         i++; // 跳過下一個部分，因為它是動態參數
+        continue;
       }
 
       if (!pathMap[fullPath]) {
@@ -78,6 +83,7 @@ export function createSidebarStructure(modules) {
   }
 
   cleanupChildren(sidebar);
+  console.log(sidebar);
   return sidebar;
 }
 
