@@ -54,7 +54,6 @@ const showRouters = computed(() => {
 });
 
 const init = () => {
-  console.log(drawerRouters, "drawerRouters");
   if (userData.value.identify === "sub-account")
     hideRoute = [...hideRoute, "Subaccount", "RoleList"];
 };
