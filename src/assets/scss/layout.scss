@@ -4,3 +4,22 @@
   height: 100vh;
   background: #dedede;
 }
+
+.layout-login {
+  position: fixed;
+  background: linear-gradient(to bottom, #ffffff, #d3d3d3);
+  width: 100%;
+  height: 100%;
+  &--dark {
+    background: linear-gradient(to bottom, #121212, #000000);
+  }
+}
+
+.normal-card-background {
+  background: #ffffff;
+}
+
+
+.dark-card-background {
+  background: #121212;
+}

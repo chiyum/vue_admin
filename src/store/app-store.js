@@ -1,8 +1,14 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import { LANG_LIST } from "@/constants/lang";
+import { useI18n } from "@/services/i18n-service";
+import stroageProvider from "@/services/storage-service";
 
 export const useAppStore = defineStore("counter", () => {
-  const i18nLang = ref("");
+  const { setLocale, locale } = useI18n();
+  const { provider: storage } = stroageProvider;
+  const langs = ref(LANG_LIST);
+  const i18nLang = ref(locale);
   const i18nFormat = computed(() => {
     const lang = i18nLang.value;
     switch (lang) {
@@ -16,8 +22,10 @@ export const useAppStore = defineStore("counter", () => {
   });
 
   function changeI18nLang(lang) {
+    setLocale(lang);
+    storage.set("locale", lang);
     i18nLang.value = lang;
   }
 
-  return { i18nLang, i18nFormat, changeI18nLang };
+  return { langs, i18nLang, i18nFormat, changeI18nLang };
 });
