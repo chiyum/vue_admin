@@ -38,12 +38,12 @@ app.use(Quasar, {
   },
 });
 
-/** mock server用 */
-if (import.meta.env.PROD) {
-  import("../mockProdServer").then(({ setupProdMockServer }) => {
-    setupProdMockServer();
-  });
-}
+// /** mock server用 */
+// if (import.meta.env.PROD) {
+//   import("../mockProdServer").then(({ setupProdMockServer }) => {
+//     setupProdMockServer();
+//   });
+// }
 
 // app.use(drag);
 

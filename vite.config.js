@@ -10,7 +10,7 @@ import AutoImport from "unplugin-auto-import/vite";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd()); // 取得依照build的環境，取得env資料
-  const prodMock = process.env.VITE_PROD_MOCK === "true"; // 當設定檔為true時，build的專案也啟用mockserver
+  // const prodMock = process.env.VITE_PROD_MOCK === "true"; // 當設定檔為true時，build的專案也啟用mockserver
   return {
     base: "./",
     plugins: [
@@ -50,11 +50,7 @@ export default defineConfig(({ mode, command }) => {
       viteMockServe({
         mockPath: "mock",
         localEnabled: command === "serve",
-        prodEnabled: command !== "serve" && prodMock,
-        injectCode: `
-          import { setupProdMockServer } from './mockProdServer';
-          setupProdMockServer();
-        `,
+        prodEnabled: false,
       }),
     ],
     resolve: {
