@@ -8,7 +8,7 @@
 import { defineOptions } from "vue";
 defineOptions({
   customOptions: {
-    test: "test",
+    i18nName: "nav.params.get",
   },
 });
 /** 路由說明 */

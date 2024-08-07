@@ -1,52 +1,16 @@
-<!-- eslint-disable vue/no-v-for-template-key -->
 <script setup>
 /** @desc 最多支援三層 */
 import { drawerRouters } from "@/_app/pages";
-import { useAuthStore } from "@/store/auth-store";
-import { storeToRefs } from "pinia";
+// import { useAuthStore } from "@/store/auth-store";
+// import { storeToRefs } from "pinia";
 import { useI18n } from "@/services/i18n-service";
 
-// const $q = useQuasar();
-const store = useAuthStore();
 const { t } = useI18n();
-const { userData } = storeToRefs(store);
 
-// 固定隱藏的路由
-let hideRoute = ["AppMessage", "PaymentSetting", "RobotList"];
-
-// Promission 對應表
-const promission = {
-  // 後端 : 前端
-  viewGetOnlineUsers: "OnlineUser", // 用戶管理 > 在線會員 1
-  viewSearchUsers: "UserList", // 用戶管理 > 用戶列表 2
-  viewGetRoomSetting: "BasicSetting", // 房間管理 > 基本設定 8
-  viewSearchSubAgents: "ProxyList", // 代理列表 12
-  viewSearchRoomEntryReview: "RoomEntryApprovals", // 申請管理 > 進房審核 15
-  viewSearchRoomEntryReviewRecords: "RoomEntryApprovalRecords", // 申請管理 > 進房審核紀錄 16
-  viewGetAllSpecialUsersRebate: "SpecialRebate", // 回水管理 > 特殊回水 21
-  viewGetAgentRebates: "LotteryRebate", // 回水管理 > 彩票回水 24
-  viewGetGameMessages: "NotifyManagement", // 消息設置 各遊戲頁面 (禁止查看遊戲推送消息) 29
-  viewSearchUsersReport: "LotteryReport", // 報表管理 > 彩票報表 (禁止查看彩票報表) 30
-  viewSearchRebateRecord: "RebateReport", // 報表管理 > 回水報表 (禁止查看回水報表) 33
-  viewSearchGameHistory: "LiveMonitorManagement", // 即時監控 各遊戲頁面 (禁用查看開獎紀錄) 35
-};
-
-// 藉由userData disabledPermissions 增加 需隱藏的路由
-if (userData && userData.value && userData.value.disabledPermissions) {
-  userData.value.disabledPermissions.forEach((permission) => {
-    const frontendRoute = promission[permission.Name];
-    if (frontendRoute && !hideRoute.includes(frontendRoute)) {
-      hideRoute.push(frontendRoute);
-    }
-  });
-} else {
-  console.log("userData.value.disabledPermissions is null or undefined");
-}
-
-// showDistributeDialog();
 /**
  * 路由篩選
- * @desc 根據需要的條件進行篩選
+ * @desc 根據需要的條件進行篩選。不過可以直接使用各元件內的defineOptions進行設定
+ *       這邊算是突破原先規則強行設置
  */
 const showRouters = computed(() => {
   let routers = JSON.parse(JSON.stringify(drawerRouters)); // 深拷貝 drawerRouters
@@ -55,13 +19,9 @@ const showRouters = computed(() => {
 
 const init = () => {
   console.log(drawerRouters, "drawerRouters");
-  if (userData.value.identify === "sub-account")
-    hideRoute = [...hideRoute, "Subaccount", "RoleList"];
 };
 init();
 </script>
-<!-- v-if="item.i18nName === 'MemberManagement' && userData.roleId === 2" -->
-<!-- PageContent -->
 
 <template>
   <div class="routeItem pa-2 q-gutter-y-xs">
@@ -86,7 +46,7 @@ init();
               size="sm"
               class="mr-2"
             />
-            <span>{{ t(item.i18nName) }}{{ item.meta?.icon }}</span>
+            <span>{{ t(item.i18nName) }}</span>
           </div>
         </q-item>
         <!-- 無icon item -->

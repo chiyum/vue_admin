@@ -6,6 +6,13 @@ const modules = [];
 for (let path in files) {
   /* 抓取路由 */
   const name = path.replace("../pages", "").toLowerCase().replace(".vue", "");
+  const i18Route = path
+    .replace("../pages", "")
+    .replace(".vue", "")
+    .replace(/\/index$/, "")
+    .replace(/(\w+)_([^/]+)(?=\/|$)/g, (match, p1) => {
+      return `${p1}/:pathMatch(.*)*`;
+    });
   let currentPath = name;
 
   /* /index => / */
@@ -32,7 +39,8 @@ for (let path in files) {
       // 是否要顯示在左側導航欄
       isHideSidebar: defaults[path].default.isHideSidebar || false,
       sidebarSort: defaults[path].default.sidebarSort || null, // 左側導航欄排序
-      i18Name: defaults[path].default.i18Name || null, // i18n用名稱
+      i18nName: defaults[path].default.i18nName || null, // i18n用名稱
+      i18nRoute: i18Route, // navBar用路由
       // 其他設定檔
       ...meta,
     },
