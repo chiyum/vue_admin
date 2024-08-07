@@ -86,7 +86,7 @@ init();
               size="sm"
               class="mr-2"
             />
-            <span>{{ t(item.i18nName) }}</span>
+            <span>{{ t(item.i18nName) }}{{ item.meta?.icon }}</span>
           </div>
         </q-item>
         <!-- 無icon item -->

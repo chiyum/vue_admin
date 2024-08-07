@@ -11,18 +11,16 @@ for (let path in files) {
   /* /index => / */
   currentPath = currentPath.replace(/\/index$/, "");
 
-  /* 處理動態路由 */
-  currentPath = currentPath.replace(
-    /(\w+)_([^/]+)(?=\/|$)/g,
-    (match, p1, p2) => {
-      return `${p1}/:${p2}`;
-    }
-  );
+  /* 處理動態路由 :pathMatch(.*)*為支援多個動態路由 exmaple: page/params1/params2  */
+  currentPath = currentPath.replace(/(\w+)_([^/]+)(?=\/|$)/g, (match, p1) => {
+    return `${p1}/:pathMatch(.*)*`;
+  });
 
   /* 上傳路由 */
   const customOption = defaults[path].default?.customOptions ?? {};
+  /** meta */
   const meta = Object.keys(customOption).reduce((finalMeta, key) => {
-    return { ...finalMeta, [key]: key, value: customOption[key] };
+    return { ...finalMeta, [key]: customOption[key] };
   }, {});
 
   modules.push({
@@ -43,5 +41,5 @@ for (let path in files) {
 }
 
 export const drawerRouters = routerStructure(modules);
-
+console.log(modules);
 export default modules;

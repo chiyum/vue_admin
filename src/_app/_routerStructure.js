@@ -1,15 +1,15 @@
+/** 動態路由處理 */
 function removeAfterColon(path) {
-  // 分割路径中的每一部分
+  // 分割路徑
   const segments = path.split("/");
-  // 用于存储处理后的路径段
   const processedSegments = segments.map((segment) => {
-    // 如果段中包含冒号，只保留冒号前的部分
-    return segment.includes(":") ? "" : segment;
+    // 只保留第一個:pathMatch(.*)*前的部分
+    return segment.includes(":pathMatch(.*)*") ? "" : segment;
   });
-  // 重新组合路径，并处理空段
+  // 重新組合路徑
   return processedSegments.filter((segment) => segment !== "").join("/");
 }
-
+/** 排序 */
 function sortRoutes(routes) {
   routes.sort((a, b) => {
     // 首先檢查 sidebarSort
@@ -41,20 +41,22 @@ function sortRoutes(routes) {
 }
 
 export function createSidebarStructure(modules) {
-  const sidebar = [];
-  const pathMap = {};
+  console.log(modules);
+  const sidebar = []; // 最後返回陣列
+  const pathMap = {}; // 當前路徑對應的物件
 
   modules.forEach((module) => {
     const parts = module.path.split("/").filter(Boolean);
     let current = sidebar;
     let fullPath = "";
 
+    /** 路由處理 */
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
       fullPath += "/" + part;
 
       const endsWithUnderscore = part.endsWith("_");
-      const isDynamic = part.startsWith(":");
+      const isDynamic = part.startsWith(":pathMatch(.*)*");
 
       // 如果路徑以下劃線結尾，跳過整個路徑
       if (endsWithUnderscore) {
@@ -68,6 +70,16 @@ export function createSidebarStructure(modules) {
         )}/default`;
         // 如果是動態路由，使用 'default' 作為路徑的一部分
         fullPath = `/${removeAfterColon(fullPath)}/default`;
+        const newItem = {
+          path: fullPath,
+          name: part.charAt(0).toUpperCase() + part.slice(1),
+          i18nName:
+            module.meta.i18nName ||
+            part.charAt(0).toUpperCase() + part.slice(1),
+          contentLevel: isDynamic ? i : i + 1, // 如果是動態路由，contentLevel 不增加
+          meta: module.meta,
+        };
+        current.push(newItem);
         i++; // 跳過下一個部分，因為它是動態參數
         continue;
       }
