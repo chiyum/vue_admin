@@ -67,6 +67,8 @@ export function createSidebarStructure(modules) {
     let current = sidebar;
     let fullPath = "";
 
+    if (module.meta.isHideSidebar) return;
+
     /**
      * 邏輯說明
      * @dese 待說明...
@@ -156,7 +158,6 @@ export function createSidebarStructure(modules) {
     const parent = findPath(sidebar, parentPath);
     if (parent && parent.children) {
       parent.children.forEach((child) => {
-        console.log(child, "child");
         if (child.path === removeDynamicPath) {
           Object.keys(child).forEach((key) => {
             child[key] = item[key];

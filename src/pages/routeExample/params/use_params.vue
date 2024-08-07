@@ -7,8 +7,9 @@
 <script setup>
 import { defineOptions } from "vue";
 defineOptions({
+  isHideSidebar: true,
   customOptions: {
-    i18nName: "nav.home",
+    i18nName: "params.get",
   },
 });
 /** 路由說明 */

@@ -49,5 +49,5 @@ for (let path in files) {
 }
 
 export const drawerRouters = routerStructure(modules);
-console.log(modules);
+
 export default modules;
