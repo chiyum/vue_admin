@@ -30,5 +30,6 @@ module.exports = {
     "vue/name-property-casing": "off",
     "vue/component-name-in-template-casing": "off",
     "vue/multi-word-component-names": "off",
+    "react-hooks/exhaustive-deps": "off", // 關閉該規則
   },
 };

@@ -3,23 +3,18 @@
 @import "scss/layout.scss";
 @import "scss/home.scss";
 @import "scss/login.scss";
+@import "scss/table.scss";
 @import "scss/setting.scss";
 
 :root {
-  --globaldark:#423e4e
+  --globaldark: #423e4e;
 }
 
 html,
 body {
   // height: 100%;
-  font-family:
-    "Outfit",
-    "微軟正黑體",
-    Microsoft JhengHei,
-    Tahoma,
-    Geneva,
-    Verdana,
-    sans-serif;
+  font-family: "Outfit", "微軟正黑體", Microsoft JhengHei, Tahoma, Geneva,
+    Verdana, sans-serif;
   overflow-x: hidden;
 }
 
@@ -45,7 +40,8 @@ input[type="number"] {
   box-shadow: 0 0 20px 0 #d9d9d9;
   cursor: pointer;
   &--active {
-    background: linear-gradient(90deg, #263a59 0%, #4fa2f7 100%), linear-gradient(#4872a7, #4872a7);
+    background: linear-gradient(90deg, #263a59 0%, #4fa2f7 100%),
+      linear-gradient(#4872a7, #4872a7);
     color: #fff;
   }
 }
@@ -218,9 +214,7 @@ input[type="number"] {
         padding: 5px;
         padding-bottom: 0px;
         border-radius: 3px 3px 0px 0px;
-        box-shadow:
-          0 1px 5px rgba(0, 0, 0, 0.2),
-          0 2px 2px rgba(0, 0, 0, 0.14),
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14),
           0 3px 1px -2px rgba(0, 0, 0, 0.12);
       }
     }
@@ -234,41 +228,41 @@ input[type="number"] {
   }
 }
 
-.game-result-icon {
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  margin: auto 0;
-  background: url("../assets/game/icon2.78a93483.png") no-repeat;
-  background-size: 581px 628px;
-  text-align: center;
-  $max: 9;
-  @for $i from 0 through $max {
-    &-#{$i} {
-      background-position-x: -($i * 44px);
-    }
-  }
-}
+// .game-result-icon {
+//   width: 30px;
+//   height: 30px;
+//   line-height: 30px;
+//   margin: auto 0;
+//   background: url("../assets/game/icon2.78a93483.png") no-repeat;
+//   background-size: 581px 628px;
+//   text-align: center;
+//   $max: 9;
+//   @for $i from 0 through $max {
+//     &-#{$i} {
+//       background-position-x: -($i * 44px);
+//     }
+//   }
+// }
 
-.cutsom-dialog {
-  &-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
+// .cutsom-dialog {
+//   &-title {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//   }
+// }
 
-.game-result-ball-icon {
-  width: 30px;
-  height: 30px;
-  background-size: cover !important;
-  $max: 9;
-  @for $i from 0 through $max {
-    &-#{$i} {
-      background: url("../assets/game/ball-#{$i}.png") no-repeat;
-    }
-  }
-}
+// .game-result-ball-icon {
+//   width: 30px;
+//   height: 30px;
+//   background-size: cover !important;
+//   $max: 9;
+//   @for $i from 0 through $max {
+//     &-#{$i} {
+//       background: url("../assets/game/ball-#{$i}.png") no-repeat;
+//     }
+//   }
+// }
 
 div[data-num] {
   width: 21px;
@@ -378,11 +372,62 @@ div[data-num] {
   }
 }
 
-
-
 // global styles
 
 .base-card-shadow {
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+}
+
+$header: #ffffff;
+$header-dark: #1d1d1d;
+$border-color: rgba(0, 0, 0, 0.12);
+.default-table-style {
+  height: 100%;
+  thead {
+    tr {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      th {
+        background: $header;
+        /* higher than z-index for td below */
+        /* bg color is important; just specify one */
+        .body--dark & {
+          background: $header-dark;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+  tbody {
+    tr:last-child {
+      td {
+        border-bottom: 1px solid $border-color;
+      }
+    }
+  }
+}
+
+.q-table__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // display: grid;
+  // grid-template-columns: repeat(2, 1fr);
+  // justify-content: end;
+  // grid-auto-flow: dense;
+}
+
+.custom-pagination {
+  position: relative;
+  &-loading {
+    position: absolute;
+    bottom: 0;
+  }
+  &-rows-per-page {
+    display: flex;
+    align-items: center;
+    height: 30px;
+  }
 }
