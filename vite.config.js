@@ -3,18 +3,21 @@ import vue from "@vitejs/plugin-vue";
 import eslintPlugin from "vite-plugin-eslint";
 import html from "vite-plugin-html";
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
+import { viteMockServe } from "vite-plugin-mock";
 import { resolve } from "path";
 import AutoImport from "unplugin-auto-import/vite";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd()); // 取得依照build的環境，取得env資料
+  const prodMock = process.env.VITE_PROD_MOCK === "true"; // 當設定檔為true時，build的專案也啟用mockserver
   return {
     base: "./",
     plugins: [
       vue({
         template: { transformAssetUrls },
       }),
+      /** 自動導入 */
       AutoImport({
         imports: ["vue", "vue-router", "pinia"], // 自動導入的模塊
         include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
@@ -42,6 +45,16 @@ export default defineConfig(({ mode }) => {
             logo: env.VITE_ENV_LOGO, // logo
           },
         },
+      }),
+      /** mockserver */
+      viteMockServe({
+        mockPath: "mock",
+        localEnabled: command === "serve",
+        prodEnabled: command !== "serve" && prodMock,
+        injectCode: `
+          import { setupProdMockServer } from './mockProdServer';
+          setupProdMockServer();
+        `,
       }),
     ],
     resolve: {

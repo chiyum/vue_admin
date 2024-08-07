@@ -38,6 +38,13 @@ app.use(Quasar, {
   },
 });
 
+/** mock server用 */
+if (import.meta.env.PROD) {
+  import("../mockProdServer").then(({ setupProdMockServer }) => {
+    setupProdMockServer();
+  });
+}
+
 // app.use(drag);
 
 /** services register / 自定義hook */
