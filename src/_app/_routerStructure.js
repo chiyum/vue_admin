@@ -62,7 +62,7 @@ export function createSidebarStructure(modules) {
   const needHandleDynamic = []; // 需要處理的動態路由
 
   modules.forEach((module) => {
-    const parts = module.path.split("/").filter(Boolean);
+    const parts = module.name.split("/").filter(Boolean);
     const i18nParts = module.meta.i18nRoute.split("/").filter(Boolean);
     let current = sidebar;
     let fullPath = "";

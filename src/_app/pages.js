@@ -31,7 +31,7 @@ for (let path in files) {
   }, {});
 
   modules.push({
-    path: currentPath, // 路由
+    path: currentPath.replace(/_$/, ""), // 路由
     name: currentPath, // 路由名稱
     meta: {
       // 頁面layout

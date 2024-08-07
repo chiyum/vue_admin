@@ -197,6 +197,7 @@ const { changeI18nLang } = appStore;
 const userData = authStore.userData;
 
 const $q = useQuasar();
+const router = useRouter();
 const expireTime = computed(() => {
   const ExpiredTimeStr = localStorage.getItem("admin_expiredTime") || null;
   if (ExpiredTimeStr && ExpiredTimeStr !== "undefined") {
@@ -266,7 +267,7 @@ let state = reactive({
 const Logout = () => {
   localStorage.removeItem("admin_token");
   localStorage.removeItem("admin_expiredTime");
-  window.location.reload();
+  router.replace("/login");
 };
 
 const CallResetPasswordDialog = () => {
