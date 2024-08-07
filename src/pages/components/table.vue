@@ -3,7 +3,7 @@
 </template>
 <script setup>
 import axios from "@/services/http-service";
-axios.get("/mock-api/users").then((response) => {
+axios.get("/users").then((response) => {
   console.log(response.data);
 });
 </script>

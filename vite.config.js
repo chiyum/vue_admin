@@ -10,6 +10,7 @@ import AutoImport from "unplugin-auto-import/vite";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd()); // 取得依照build的環境，取得env資料
+  const port = 8080;
   // const prodMock = process.env.VITE_PROD_MOCK === "true"; // 當設定檔為true時，build的專案也啟用mockserver
   return {
     base: "./",
@@ -60,7 +61,19 @@ export default defineConfig(({ mode, command }) => {
       extensions: [".vue", ".js"],
     },
     server: {
-      port: 8080,
+      port: port,
+      proxy: {
+        "/mock-api": {
+          target: `http://localhost:${port}`,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/mock-api/, ""),
+        },
+        "/api": {
+          target: "http://exmaple.com/api",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+      },
     },
     build: {
       minify: "terser",

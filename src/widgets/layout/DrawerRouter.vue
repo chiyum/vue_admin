@@ -17,10 +17,10 @@ const showRouters = computed(() => {
   return routers;
 });
 
-const init = () => {
-  console.log(drawerRouters, "drawerRouters");
-};
-init();
+// const init = () => {
+//   console.log(drawerRouters, "drawerRouters");
+// };
+// init();
 </script>
 
 <template>

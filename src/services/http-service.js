@@ -8,7 +8,7 @@ import transfer from "@/interceptors/transfer";
 
 export class HttpService {
   constructor() {
-    this.provider = new HttpProvider(import.meta.env.VITE_REMOTE_API);
+    this.provider = new HttpProvider(import.meta.env.VITE_API_URL);
     this.init();
   }
 
