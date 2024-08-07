@@ -42,7 +42,7 @@ init();
         >
           <div class="d-flex align-center">
             <q-icon
-              :name="item.meta?.icon ?? 'description'"
+              :name="item?.meta?.sidebarIcon ?? 'description'"
               size="sm"
               class="mr-2"
             />
@@ -55,7 +55,7 @@ init();
           dense
           header-class="rounded-xl px-2"
           expand-icon="arrow_drop_down"
-          :icon="item.meta?.icon ?? 'folder'"
+          :icon="item?.meta?.sidebarIcon ?? 'folder'"
           :label="t(item.i18nName)"
           :content-inset-level="item.contentLevel"
         >
@@ -73,8 +73,8 @@ init();
                         </q-item-section> -->
               <div class="d-flex align-center">
                 <q-icon
-                  v-if="item.meta?.icon"
-                  :name="item.meta?.icon"
+                  v-if="item?.meta?.sidebarIcon"
+                  :name="item?.meta?.sidebarIcon"
                   size="sm"
                   class="mr-2"
                 />
@@ -92,7 +92,7 @@ init();
               dense
               header-class="rounded-xl px-2"
               expand-icon="arrow_drop_down"
-              :icon="item.meta?.icon ?? 'folder'"
+              :icon="item?.meta?.sidebarIcon ?? 'folder'"
               :label="t(node.i18nName)"
               :content-inset-level="node.contentLevel"
             >
@@ -107,8 +107,8 @@ init();
               >
                 <div class="d-flex align-center">
                   <q-icon
-                    v-if="item.meta?.icon"
-                    :name="item.meta?.icon"
+                    v-if="item?.meta?.sidebarIcon"
+                    :name="item?.meta?.sidebarIcon"
                     size="sm"
                     class="mr-2"
                   />

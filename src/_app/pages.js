@@ -40,6 +40,7 @@ for (let path in files) {
       isHideSidebar: defaults[path].default.isHideSidebar || false,
       sidebarSort: defaults[path].default.sidebarSort || null, // 左側導航欄排序
       i18nName: defaults[path].default.i18nName || null, // i18n用名稱
+      sidebarIcon: defaults[path].default.sidebarIcon || null, // 左側導航欄icon
       i18nRoute: i18Route, // navBar用路由
       // 其他設定檔
       ...meta,

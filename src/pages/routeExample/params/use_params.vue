@@ -1,18 +1,14 @@
 <template>
-  <div>
-    {{ helloWorld }}{{ route.params }}
-    <q-icon name="lock"></q-icon>
-  </div>
+  <div>Params{{ route.params }}</div>
 </template>
 <script setup>
 import { defineOptions } from "vue";
 defineOptions({
-  isHideSidebar: true,
+  // isHideSidebar: true, // 需要在slidebar隱藏時
   customOptions: {
-    i18nName: "params.get",
+    i18nName: "nav.params.get", // 自定義sidebar名稱
   },
 });
 /** 路由說明 */
 const route = useRoute();
-const helloWorld = ref("Hello, World!");
 </script>
