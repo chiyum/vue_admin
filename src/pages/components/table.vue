@@ -225,26 +225,6 @@
                       }}</q-item-section>
                     </q-item>
                     <q-item
-                      v-permission="'OperateGetSingleUserRebate'"
-                      v-close-popup
-                      clickable
-                      @click="openBackwaterSetting(props.row.userId)"
-                    >
-                      <q-item-section>{{
-                        t("global.LotteryRebate")
-                      }}</q-item-section>
-                    </q-item>
-                    <q-item
-                      v-if="state.IsForbidden"
-                      v-close-popup
-                      clickable
-                      @click="openLotteryReport(props.row.userId)"
-                    >
-                      <q-item-section>{{
-                        t("global.DetailReport")
-                      }}</q-item-section>
-                    </q-item>
-                    <q-item
                       v-permission="'OperateForceTransfer'"
                       v-close-popup
                       clickable
@@ -254,15 +234,6 @@
                     >
                       <q-item-section>{{
                         t("global.ScoreOperation")
-                      }}</q-item-section>
-                    </q-item>
-                    <q-item
-                      v-close-popup
-                      clickable
-                      @click="showDistributeDialog(props.row)"
-                    >
-                      <q-item-section>{{
-                        t("global.GiveRedPacket")
                       }}</q-item-section>
                     </q-item>
                     <q-item
@@ -523,86 +494,6 @@
         </div>
       </div>
     </CustomDialog>
-    <!-- 回水彈窗 -->
-    <CustomDialog
-      :is-show="state.backwater.isShowDialog"
-      :title="t('global.LotteryRebate')"
-      :options="{ hasAction: true, customCss: 'backwater-dialog' }"
-      :show-confirm-button="!state.IsDisableUpdateRebate"
-      @dismiss="onBackwaterDialogClose"
-    >
-      <div class="user-detail-dialog-col user-detail-dialog-col--columns">
-        <div>
-          <div class="user-detail-dialog-col-label">
-            {{ t("global.DoOpenRebate") }}
-          </div>
-          <SwitchComponent v-model="state.backwater.state" />
-        </div>
-        <div class="backwater-state-values">
-          <div class="robot-edit robot-edit-dialog">
-            <div class="robot-edit-col">
-              <div class="robot-edit-col-item">
-                <div class="robot-edit-col-item-label">
-                  {{ t("global.ChangeAll") }}
-                </div>
-                <div
-                  class="robot-edit-col-item-value robot-edit-col-item-value--inline-center"
-                >
-                  <q-input
-                    v-model.number="state.backwater.allValues"
-                    type="number"
-                    borderless
-                    dense
-                  />%
-                </div>
-              </div>
-            </div>
-            <div
-              v-for="(col, index) in state.backwater.stateValues"
-              :key="`col-${index}`"
-              class="robot-edit-col"
-            >
-              <div
-                v-for="item in col"
-                :key="item.id"
-                class="robot-edit-col-item"
-              >
-                <div class="robot-edit-col-item-label">
-                  {{ t(item.label) }}
-                </div>
-                <div
-                  class="robot-edit-col-item-value robot-edit-col-item-value--inline-center"
-                >
-                  <q-input
-                    v-model.number="item.value"
-                    type="number"
-                    borderless
-                    dense
-                  />%
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </CustomDialog>
-    <!-- 報表彈窗 -->
-    <CustomDialog
-      :is-show="state.recordOption.isShowDialog"
-      :title="t('global.DetailReport')"
-      :options="{
-        hasAction: false,
-        customCss: 'lottery-record-dialog',
-        isFullWidth: true,
-      }"
-      @dismiss="
-        () => {
-          state.recordOption.isShowDialog = false;
-        }
-      "
-    >
-      <Record :user-id="state.recordOption.userId" />
-    </CustomDialog>
   </div>
 </template>
 <script setup>
@@ -616,72 +507,64 @@ import dayjs from "dayjs";
 // import { useAuthStore } from "@/store/auth-store";
 // import { storeToRefs } from "pinia";
 import { useI18n } from "@/services/i18n-service";
+import AddAccounting from "@/widgets/action/addAccountingAmout.vue";
+import { useQuasar } from "quasar";
 
 const { t } = useI18n();
-
-/** 取得列表 */
-const getData = async (isFilter = false) => {
-  state.isLoading = true;
-
-  if (isFilter) state.pagination.page = 1;
-  state.tableFilters.pageNo = state.pagination.page;
-  state.tableFilters.pageSize = state.pagination.rowsPerPage;
-
-  /** 整理過濾資料 */
-  let params = {};
-  const otherParams = filterReservedKeys(state.tableFilters);
-  params = {
-    agentId: 1,
-    ...otherParams, // 非filter資料
-    startTime: state.tableFilters.startTime
-      ? dayjs(state.tableFilters.startTime).unix()
-      : null,
-    endTime: state.tableFilters.endTime
-      ? dayjs(state.tableFilters.endTime).unix()
-      : null,
-    filters: {
-      userId: state.tableFilters.userId || null,
-      username: state.tableFilters.username || null,
-      nickName: state.tableFilters.nickName || null,
-      memo: state.tableFilters.memo || null,
-    },
-  };
-
-  axios.get("/admin/searchUsers", { params }).then(({ data: res }) => {
-    state.isLoading = false;
-    if (res.code !== 0) return;
-    /** 成功後只更改當前頁面及總筆數 */
-    state.pagination.page = res.data.pageNo;
-    state.pagination.rowsNumber = res.data.totalCount;
-    state.rows = res.data?.items || [];
-    console.log(state.pagination);
-  });
-};
-// const authStore = useAuthStore();
-// const { userData } = storeToRefs(authStore);
+const $q = useQuasar();
 
 const state = reactive({
   columns: [
-    { label: "Avatar", field: "Avatar", name: "profileImg", align: "center" }, // 頭像
-    { label: "UserId", field: "UserId", name: "userId", align: "left" }, // 會員編號
-    { label: "Username", field: "Username", name: "username", align: "left" }, // 用戶名
-    { label: "Nickname", field: "Nickname", name: "nickname", align: "left" }, // 暱稱
-    { label: "Balance", field: "Balance", name: "balance", align: "left" }, // 餘額
+    {
+      label: "global.Avatar",
+      field: "Avatar",
+      name: "profileImg",
+      align: "center",
+    }, // 頭像
+    { label: "global.UserId", field: "UserId", name: "userId", align: "left" }, // 會員編號
+    {
+      label: "global.Username",
+      field: "Username",
+      name: "username",
+      align: "left",
+    }, // 用戶名
+    {
+      label: "global.Nickname",
+      field: "Nickname",
+      name: "nickname",
+      align: "left",
+    }, // 暱稱
+    {
+      label: "global.Balance",
+      field: "Balance",
+      name: "balance",
+      align: "left",
+    }, // 餘額
     /** 以下開始特殊icon */
     {
-      label: "Identity",
+      label: "global.Identity",
       field: "Identity",
       name: "subAgentLevel",
       align: "left",
     }, // 用戶身份 0是普通會員 1.2.3為各級代理
     {
-      label: "RoomState",
+      label: "global.RoomState",
       field: "RoomState",
       name: "roomState",
       align: "left",
     }, // 房間狀態 禁言 or 禁止加入房間 兩者為false時為正常
-    { label: "UserNote", field: "UserNote", name: "memo", align: "left" }, // 會員備註
-    { label: "Operation", field: "Actions", name: "actions", align: "center" }, // 操作
+    {
+      label: "global.UserNote",
+      field: "UserNote",
+      name: "memo",
+      align: "left",
+    }, // 會員備註
+    {
+      label: "global.Operation",
+      field: "Actions",
+      name: "actions",
+      align: "center",
+    }, // 操作
   ],
   rows: [],
   isLoading: false,
@@ -733,6 +616,75 @@ const state = reactive({
   },
   showSearch: false,
 });
+/** 取得列表 */
+const getData = async (isFilter = false) => {
+  state.isLoading = true;
+
+  if (isFilter) state.pagination.page = 1;
+  state.tableFilters.pageNo = state.pagination.page;
+  state.tableFilters.pageSize = state.pagination.rowsPerPage;
+
+  /** 整理過濾資料 */
+  let params = {};
+  const otherParams = filterReservedKeys(state.tableFilters);
+  params = {
+    agentId: 1,
+    ...otherParams, // 非filter資料
+    startTime: state.tableFilters.startTime
+      ? dayjs(state.tableFilters.startTime).unix()
+      : null,
+    endTime: state.tableFilters.endTime
+      ? dayjs(state.tableFilters.endTime).unix()
+      : null,
+    filters: {
+      userId: state.tableFilters.userId || null,
+      username: state.tableFilters.username || null,
+      nickName: state.tableFilters.nickName || null,
+      memo: state.tableFilters.memo || null,
+    },
+  };
+
+  axios.get("/admin/searchUsers", { params }).then(({ data: res }) => {
+    state.isLoading = false;
+    if (res.code !== 0) return;
+    /** 成功後只更改當前頁面及總筆數 */
+    state.pagination.page = res.data.pageNo;
+    state.pagination.rowsNumber = res.data.totalCount;
+    state.rows = res.data?.items || [];
+    console.log(state.pagination);
+  });
+};
+// const authStore = useAuthStore();
+// const { userData } = storeToRefs(authStore);
+const updateAccounting = (id, username) => {
+  $q.dialog({
+    component: AddAccounting,
+    componentProps: {
+      id,
+      username,
+    },
+  }).onOk(({ selectValue, inputValue, memo }) => {
+    state.isLoading = true;
+    const options = {
+      Deposit: 9,
+      Withdraw: 10,
+    };
+    axios
+      .post("/admin/forceTransfer", {
+        agentId: 1,
+        userId: id,
+        transferType: options[selectValue.value],
+        amount: inputValue,
+        memo: memo,
+      })
+      .then(() => {
+        getData();
+      })
+      .finally(() => {
+        state.isLoading = false;
+      });
+  });
+};
 const init = () => {
   getData();
 };

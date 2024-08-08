@@ -17,6 +17,22 @@ const showRouters = computed(() => {
   return routers;
 });
 
+/**
+ * 設定父層icon
+ * 若要設定則依照資料夾名稱設定對應的icon name
+ * @param {String} iconName
+ * @returns {String}
+ */
+const getParentIcon = (iconName) => {
+  const removePrefixName = iconName.split(".")[1];
+  switch (removePrefixName) {
+    case "components":
+      return "extension";
+    default:
+      return null;
+  }
+};
+
 // const init = () => {
 //   console.log(drawerRouters, "drawerRouters");
 // };
@@ -55,7 +71,7 @@ const showRouters = computed(() => {
           dense
           header-class="rounded-xl px-2"
           expand-icon="arrow_drop_down"
-          :icon="item?.meta?.sidebarIcon ?? 'folder'"
+          :icon="getParentIcon(item.i18nName) ?? 'folder'"
           :label="t(item.i18nName)"
           :content-inset-level="item.contentLevel"
         >
@@ -92,7 +108,7 @@ const showRouters = computed(() => {
               dense
               header-class="rounded-xl px-2"
               expand-icon="arrow_drop_down"
-              :icon="item?.meta?.sidebarIcon ?? 'folder'"
+              :icon="getParentIcon(node.i18nName) ?? 'folder'"
               :label="t(node.i18nName)"
               :content-inset-level="node.contentLevel"
             >
