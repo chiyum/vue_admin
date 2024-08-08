@@ -13,16 +13,21 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  options: {
-    type: Object,
-    default: () => {
-      return {
-        hasAction: true,
-        customCss: "",
-        isFullWidth: false,
-        isFullHeight: false,
-      };
-    },
+  hasAction: {
+    type: Boolean,
+    default: true,
+  },
+  customCss: {
+    type: String,
+    default: "",
+  },
+  isFullWidth: {
+    type: Boolean,
+    default: false,
+  },
+  isFullHeight: {
+    type: Boolean,
+    default: false,
   },
   // 權限控制是否顯示確認按鈕
   showConfirmButton: {
@@ -72,9 +77,9 @@ watch(
   <q-dialog
     ref="dialogRef"
     v-model="state.showCurrentDialog"
-    :full-width="options?.isFullWidth"
-    :full-height="options?.isFullHeight"
-    :class="[options?.customCss]"
+    :full-width="isFullWidth"
+    :full-height="isFullHeight"
+    :class="[customCss]"
     @hide="onDismiss"
   >
     <q-card class="q-dialog-plugin cutsom-dialog" :class="cardClass">
@@ -82,7 +87,12 @@ watch(
         <span>
           {{ title }}
         </span>
-        <q-icon name="close" class="cursor-pointer" @click="onDismiss"></q-icon>
+        <q-icon
+          size="20px"
+          name="close"
+          class="cursor-pointer"
+          @click="onDismiss"
+        ></q-icon>
       </q-card-section>
       <q-separator />
       <q-card-section class="q-card-main">
@@ -93,14 +103,14 @@ watch(
         </div> -->
         <slot />
       </q-card-section>
-      <q-card-actions v-if="options?.hasAction" align="right">
+      <q-card-actions v-if="hasAction" align="right">
         <slot name="actions">
-          <q-btn v-close-popup color="red" :label="t('Cancel')" />
+          <q-btn v-close-popup color="red" :label="t('global.Cancel')" />
           <q-btn
             v-if="props.showConfirmButton"
             v-close-popup
             color="primary"
-            :label="t('Confirm')"
+            :label="t('global.Confirm')"
             @click="onConfirm"
           />
         </slot>

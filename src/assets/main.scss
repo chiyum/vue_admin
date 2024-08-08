@@ -431,3 +431,9 @@ $border-color: rgba(0, 0, 0, 0.12);
     height: 30px;
   }
 }
+
+.cutsom-dialog-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

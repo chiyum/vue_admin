@@ -1,5 +1,4 @@
-import { keys, forEach, reduce, isNil, isEmpty, assoc } from "ramda";
-
+import { reduce, keys, isNil, isEmpty, assoc, is, forEach } from "ramda";
 /**
  * 這個函數用於過濾對象中的 null 和空值。具體作用如下：
  * •	payload: 輸入的對象
@@ -7,12 +6,32 @@ import { keys, forEach, reduce, isNil, isEmpty, assoc } from "ramda";
  * •	rejectEmpty: 是否過濾空值
  * 該函數遍歷 payload 的鍵，如果值為 null 或空，且對應的標誌為 true，則不將該鍵值對添加到結果對象中。最終返回過濾後的新對象。
  */
+
 const _computedRejectData = (payload, { rejectNil, rejectEmpty }) =>
   reduce(
     (result, key) => {
       const value = payload[key];
+      console.log(key, value);
+
       if (rejectNil && isNil(value)) return result;
-      if (rejectEmpty && isEmpty(value)) return result;
+      if (rejectEmpty && isEmpty(value) && !is(Object, value)) return result;
+
+      // 如果 value 是物件，遞迴處理
+      if (is(Object, value) && !Array.isArray(value)) {
+        const nestedResult = _computedRejectData(value, {
+          rejectNil,
+          rejectEmpty,
+        });
+        console.log(nestedResult, "nestedResult", key, isEmpty(nestedResult));
+        // 判斷 nestedResult 是否為空物件
+        if (rejectEmpty && isEmpty(nestedResult)) {
+          return result;
+        }
+
+        return assoc(key, nestedResult, result);
+      }
+
+      console.log(assoc(key, value, result), "assoc");
       return assoc(key, value, result);
     },
     {},

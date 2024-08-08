@@ -298,7 +298,12 @@
     <CustomDialog
       :is-show="state.detailOption.isShowDialog"
       :title="t('global.MemberData')"
-      @dismiss="changeUserDetail"
+      :has-action="false"
+      @dismiss="
+        () => {
+          state.detailOption.isShowDialog = false;
+        }
+      "
     >
       <div class="user-detail-dialog">
         <div>
@@ -327,7 +332,7 @@
           </div>
           <div class="user-detail-dialog-col">
             <q-input
-              v-model="state.detailOption.detail.account"
+              v-model="state.detailOption.detail.username"
               dense
               class="user-interface-header-item"
               square
@@ -500,7 +505,6 @@
 import axios from "@/services/http-service";
 import getImageUrl from "@/utils/getImageUrl";
 import DataTable from "@/widgets/action/dataTable.vue";
-import CustomDialog from "@/widgets/action/customDialog.vue";
 import DateAndTime from "@/widgets/action/dateAndTime.vue";
 import { filterReservedKeys, formattedAmount } from "@/utils/globalFns";
 import dayjs from "dayjs";
@@ -508,6 +512,7 @@ import dayjs from "dayjs";
 // import { storeToRefs } from "pinia";
 import { useI18n } from "@/services/i18n-service";
 import AddAccounting from "@/widgets/action/addAccountingAmout.vue";
+import CustomDialog from "@/widgets/action/customDialog.vue";
 import { useQuasar } from "quasar";
 
 const { t } = useI18n();
@@ -572,7 +577,7 @@ const state = reactive({
     isShowDialog: false,
     detail: {
       userId: -1,
-      account: "帳號",
+      username: "帳號",
       nickname: "暱稱",
       phone: -1,
       wechat: -1,
@@ -644,15 +649,17 @@ const getData = async (isFilter = false) => {
     },
   };
 
-  axios.get("/admin/searchUsers", { params }).then(({ data: res }) => {
-    state.isLoading = false;
-    if (res.code !== 0) return;
-    /** 成功後只更改當前頁面及總筆數 */
-    state.pagination.page = res.data.pageNo;
-    state.pagination.rowsNumber = res.data.totalCount;
-    state.rows = res.data?.items || [];
-    console.log(state.pagination);
-  });
+  axios
+    .get("/admin/searchUsers", { params, rejectEmpty: true })
+    .then(({ data: res }) => {
+      state.isLoading = false;
+      if (res.code !== 0) return;
+      /** 成功後只更改當前頁面及總筆數 */
+      state.pagination.page = res.data.pageNo;
+      state.pagination.rowsNumber = res.data.totalCount;
+      state.rows = res.data?.items || [];
+      console.log(state.pagination);
+    });
 };
 // const authStore = useAuthStore();
 // const { userData } = storeToRefs(authStore);
@@ -681,6 +688,114 @@ const updateAccounting = (id, username) => {
         getData();
       })
       .finally(() => {
+        state.isLoading = false;
+      });
+  });
+};
+/** 禁言與否 */
+const disableChat = (id, isMuted) => {
+  $q.dialog({
+    title: t("global.ConfirmMute"),
+    message: t("global.EnableMute"),
+    ok: t("global.Confirm"),
+    cancel: t("global.Cancel"),
+  }).onOk(() => {
+    state.isLoading = true;
+    axios
+      .post("/admin/muteUser", {
+        agentId: 1,
+        userId: id,
+        isMuted: !isMuted,
+      })
+      .then(() => {
+        getData();
+      })
+      .catch(() => {
+        state.isLoading = false;
+      });
+  });
+};
+/** 禁止進入房間與否 */
+const disableEnterRoom = (id, isDisabledRoom) => {
+  $q.dialog({
+    title: t("ConfirmEnable"),
+    message: t("EnableJoinRoom"),
+    ok: t("Confirm"),
+    cancel: t("Cancel"),
+  }).onOk(() => {
+    state.isLoading = true;
+    axios
+      .post("/admin/disableRoomEntryForUser", {
+        agentId: 1,
+        userId: id,
+        isDisabledRoom: !isDisabledRoom,
+      })
+      .then(() => {
+        getData();
+      })
+      .catch(() => {
+        state.isLoading = false;
+      });
+    // console.log('OK', res);
+  });
+};
+/** 取得用戶詳細資料 */
+const getUserInfo = (userId) => {
+  state.isLoading = true;
+  axios
+    .get("/admin/getUserInfo", {
+      params: {
+        agentId: 1,
+        userId: userId,
+      },
+    })
+    .then(({ data }) => {
+      if (data.code === 0) {
+        state.detailOption.detail = data.data;
+        state.detailOption.isShowDialog = true;
+      } else {
+        $q.notify({
+          message: "error",
+          color: "negative",
+        });
+      }
+    })
+    .finally(() => {
+      state.isLoading = false;
+    });
+};
+const setAgent = (userId) => {
+  state.isLoading = true;
+  axios
+    .post("/admin/setAgent", {
+      agentId: 1,
+      userId,
+    })
+    .then(() => {
+      getData();
+    })
+    .catch(() => {
+      state.isLoading = false;
+    });
+};
+/** 刪除用戶 @todo 目前mockServer那邊刪除會有bug 暫時改成前端手動修改 */
+const deliteUser = (userId, account) => {
+  $q.dialog({
+    title: t("global.ConfirmDelete"),
+    message: `${t("global.ConfirmDelete")}${account}?`,
+    ok: t("global.Confirm"),
+    cancel: t("global.Cancel"),
+  }).onOk(() => {
+    state.isLoading = true;
+    axios
+      .post("/admin/deleteUser", {
+        agentId: 1,
+        userId,
+      })
+      .then(() => {
+        getData();
+      })
+      .catch(() => {
         state.isLoading = false;
       });
   });

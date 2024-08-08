@@ -25,7 +25,7 @@ function paginate(data, page, rowsPerPage) {
   };
 }
 
-const db = [
+let db = [
   {
     profileImg:
       "https://memeprod.ap-south-1.linodeobjects.com/user-template-thumbnail/d2254363d8a0d6a7b74a19b2da5902b4.jpg",
@@ -201,8 +201,24 @@ export default [
     method: "get",
     response: (req) => {
       // req.query 包含了 URL 參數
-      const { pageNo, pageSize } = req.query;
+      const { pageNo, pageSize, filters } = req.query;
       const { data, totalPages, currentPage } = paginate(db, pageNo, pageSize);
+      const filtersObject = filters ? JSON.parse(filters) : {};
+      let result = data;
+      Object.entries(filtersObject).forEach(([key, value]) => {
+        let searchKey = key;
+        let searchValue = value;
+        console.log(key);
+        switch (key) {
+          case "userId":
+            searchValue = +searchValue;
+            break;
+          case "nickName":
+            searchKey = searchKey.toLocaleLowerCase();
+            break;
+        }
+        result = result.filter((item) => item[searchKey] === searchValue);
+      });
       return {
         data: {
           code: 0,
@@ -211,7 +227,7 @@ export default [
             pageSize: 10,
             totalPage: totalPages,
             totalCount: db.length,
-            items: data,
+            items: result,
           },
           msg: "ok",
         },
@@ -241,24 +257,121 @@ export default [
       };
     },
   },
+  /** 禁止進入房間 */
   {
-    url: "/mock-api/user",
+    url: "/mock-api/admin/disableRoomEntryForUser",
     method: "post",
     response: (req) => {
-      // req.body 包含了 POST 請求的內容
+      // req.query 包含了 URL 參數
+      const { userId, isDisabledRoom } = req.body;
+      db.forEach((item) => {
+        if (item.userId === userId) {
+          item.isDisabledRoom = isDisabledRoom;
+        }
+      });
+      return {
+        data: {
+          code: 0,
+          data: {
+            msg: "ok",
+          },
+        },
+      };
+    },
+  },
+  /** 禁言 */
+  {
+    url: "/mock-api/admin/muteUser",
+    method: "post",
+    response: (req) => {
+      // req.query 包含了 URL 參數
+      const { userId, isMuted } = req.body;
+      db.forEach((item) => {
+        if (item.userId === userId) {
+          item.is_muted = isMuted;
+        }
+      });
+      return {
+        data: {
+          code: 0,
+          data: {
+            msg: "ok",
+          },
+        },
+      };
+    },
+  },
+  {
+    url: "/mock-api/admin/setAgent",
+    method: "post",
+    response: (req) => {
+      // req.query 包含了 URL 參數
       const { userId } = req.body;
-
-      if (userId === "1") {
-        return {
+      db.forEach((item) => {
+        if (item.userId === userId) {
+          item.subAgentLevel = 1;
+        }
+      });
+      return {
+        data: {
           code: 0,
-          data: { id: 1, name: "Admin", role: "admin" },
-        };
-      } else {
-        return {
+          data: {
+            msg: "ok",
+          },
+        },
+      };
+    },
+  },
+  {
+    url: "/mock-api/admin/deleteUser",
+    method: "post",
+    response: (req) => {
+      // req.query 包含了 URL 參數
+      const { userId } = req.body;
+      db = db.filter((item) => item.userId !== userId);
+      return {
+        data: {
           code: 0,
-          data: { id: 2, name: "User", role: "user" },
-        };
-      }
+          data: {
+            msg: "ok",
+          },
+        },
+      };
+    },
+  },
+  {
+    url: "/mock-api/admin/getUserInfo",
+    method: "get",
+    response: (req) => {
+      // req.body 包含了 POST 請求的內容
+      const { userId } = req.query;
+      const user = db.find((item) => item.userId === +userId);
+      const { username, nickname } = user;
+      console.log(username, nickname);
+      return {
+        data: {
+          code: user ? 0 : -1,
+          data: {
+            userId: userId,
+            username,
+            nickname,
+            phone: "",
+            wechat: "",
+            qq: "",
+            profileImg:
+              "https://memeprod.ap-south-1.linodeobjects.com/user-template-thumbnail/d2254363d8a0d6a7b74a19b2da5902b4.jpg",
+            alipayQrPath: "",
+            weChatQrPath: "",
+            cardholder: "",
+            address: "",
+            bankAccount: "",
+            bankType: "",
+            memo: "",
+            createdAt: 1719822124,
+          },
+          msg: "ok",
+        },
+      };
     },
   },
 ];
