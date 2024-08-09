@@ -5,5 +5,6 @@ export default {
   components: "元件",
   form: "表單",
   table: "表格",
+  dashboard: "儀表板",
   "params.get": "取得參數",
 };

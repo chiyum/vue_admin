@@ -8,6 +8,7 @@ import jquery from "@/plugins/jquery";
 import VueLazyLoad from "vue3-lazyload";
 import "@quasar/extras/material-icons/material-icons.css";
 import "quasar/src/css/index.sass";
+import VueApexCharts from "vue3-apexcharts";
 // Import icon libraries
 import "@quasar/extras/material-icons/material-icons.css";
 /** _app */
@@ -37,6 +38,7 @@ app.use(Quasar, {
     Notify,
   },
 });
+app.use(VueApexCharts);
 
 // /** mock server用 */
 // if (import.meta.env.PROD) {

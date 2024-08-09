@@ -1,10 +1,14 @@
 @import "css/tailwind.css";
 @import "css/animate.css";
 @import "scss/layout.scss";
-@import "scss/home.scss";
+@import "scss/dashboard";
 @import "scss/login.scss";
 @import "scss/table.scss";
 @import "scss/setting.scss";
+
+$header: #ffffff;
+$header-dark: #1d1d1d;
+$border-color: rgba(0, 0, 0, 0.12);
 
 :root {
   --globaldark: #423e4e;
@@ -28,6 +32,8 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+// global styles
 
 .default-btn {
   display: flex;
@@ -372,16 +378,11 @@ div[data-num] {
   }
 }
 
-// global styles
-
 .base-card-shadow {
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 
-$header: #ffffff;
-$header-dark: #1d1d1d;
-$border-color: rgba(0, 0, 0, 0.12);
 .default-table-style {
   height: 100%;
   thead {
@@ -436,4 +437,23 @@ $border-color: rgba(0, 0, 0, 0.12);
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+h4 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+h5 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+
+.global-tip {
+  color: #a3a7ad;
+  font-size: 12px;
 }

@@ -343,7 +343,7 @@ onMounted(() => {
         <div class="flex flex-center py-2 custom-pagination">
           <div class="custom-pagination-rows-per-page">
             <div class="custom-pagination-rows-per-page-label">
-              {{ t("RowsPerPage") }}:
+              {{ t("global.RowsPerPage") }}:
             </div>
             <q-select
               v-model="tablePaginaion.rowsPerPage"
@@ -355,7 +355,7 @@ onMounted(() => {
             />
           </div>
           <div class="mr-3">
-            {{ t("TotalCount") }}：{{ tablePaginaion.rowsNumber }}
+            {{ t("global.TotalCount") }}：{{ tablePaginaion.rowsNumber }}
           </div>
           <q-pagination
             v-model="tablePaginaion.page"
