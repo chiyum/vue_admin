@@ -89,8 +89,8 @@ const getParentIcon = (iconName) => {
                         </q-item-section> -->
               <div class="d-flex align-center">
                 <q-icon
-                  v-if="item?.meta?.sidebarIcon"
-                  :name="item?.meta?.sidebarIcon"
+                  v-if="node?.meta?.sidebarIcon"
+                  :name="node?.meta?.sidebarIcon"
                   size="sm"
                   class="mr-2"
                 />
@@ -123,8 +123,8 @@ const getParentIcon = (iconName) => {
               >
                 <div class="d-flex align-center">
                   <q-icon
-                    v-if="item?.meta?.sidebarIcon"
-                    :name="item?.meta?.sidebarIcon"
+                    v-if="node_1?.meta?.sidebarIcon"
+                    :name="node_1?.meta?.sidebarIcon"
                     size="sm"
                     class="mr-2"
                   />
