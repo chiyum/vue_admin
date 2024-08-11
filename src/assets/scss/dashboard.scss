@@ -4,12 +4,17 @@
   //gap: 0.5rem;
   min-height: calc(100vh - 100px);
   &-main {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     &-top {
       display: flex;
       justify-content: space-around;
       align-items: stretch;
-      flex-wrap: wrap;
-      gap: 1rem;
+      @media (max-width: 768px) {
+        flex-wrap: wrap;
+      }
+      gap: 16px;
       &-line, &-column {
         width: 100%;
         div {
@@ -19,15 +24,10 @@
     }
   }
   &-card {
-    width: 30%;
-    min-width: 350px;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard {
-    &-card {
+    width: 33%;
+    @media (max-width: 768px) {
       width: 100%;
     }
   }
 }
+

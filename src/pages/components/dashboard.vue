@@ -10,7 +10,11 @@
             }}</span>
           </q-card-section>
           <q-card-section>
-            <Line :data="state.line.data" :options="state.line.options" />
+            <Line
+              class="rwd-canvas"
+              :data="state.line.data"
+              :options="state.line.options"
+            />
           </q-card-section>
         </q-card>
         <q-card class="dashboard-card">
@@ -21,7 +25,11 @@
             }}</span>
           </q-card-section>
           <q-card-section>
-            <Bar :data="state.bar.data" :options="state.bar.options" />
+            <Bar
+              class="rwd-canvas"
+              :data="state.bar.data"
+              :options="state.bar.options"
+            />
           </q-card-section>
         </q-card>
         <q-card class="dashboard-card">
@@ -33,11 +41,14 @@
           </q-card-section>
           <q-card-section>
             <Doughnut
+              class="rwd-canvas"
               :data="state.doughnut.data"
               :options="state.doughnut.options"
             />
           </q-card-section>
         </q-card>
+      </div>
+      <div class="dashboard-main-top">
         <q-card class="dashboard-card">
           <q-card-section>
             <h3>{{ t("pages.dashboard.chart.title.4") }}</h3>
@@ -46,7 +57,11 @@
             }}</span>
           </q-card-section>
           <q-card-section>
-            <Pie :data="state.pic.data" :options="state.pic.options" />
+            <Pie
+              class="rwd-canvas"
+              :data="state.pic.data"
+              :options="state.pic.options"
+            />
           </q-card-section>
         </q-card>
         <q-card class="dashboard-card">
@@ -58,6 +73,7 @@
           </q-card-section>
           <q-card-section>
             <PolarArea
+              class="rwd-canvas"
               :data="state.polar.data"
               :options="state.polar.options"
             />
@@ -71,12 +87,14 @@
             }}</span>
           </q-card-section>
           <q-card-section>
-            <Radar :data="state.radar.data" :options="state.radar.options" />
+            <Radar
+              class="rwd-canvas"
+              :data="state.radar.data"
+              :options="state.radar.options"
+            />
           </q-card-section>
         </q-card>
       </div>
-      <ul class="dashboard-main-middle"></ul>
-      <div class="dashboard-main-bottom"></div>
     </div>
   </div>
 </template>
