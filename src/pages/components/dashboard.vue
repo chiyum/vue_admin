@@ -83,6 +83,7 @@
 <script setup>
 import { useI18n } from "@/services/i18n-service";
 import { defineOptions } from "vue";
+import { allDashboard } from "@/constants/dashboard.js";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -124,145 +125,7 @@ defineOptions({
   },
 });
 
-const state = reactive({
-  line: {
-    data: {
-      labels: ["February", "March", "April", "May", "June", "July", "August"],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: "rgb(75, 192, 192)",
-          tension: 0.1,
-        },
-      ],
-    },
-    options: {
-      responsive: true, // 是否自適應寬高
-      maintainAspectRatio: false, // 是否保持比例
-    },
-  },
-  bar: {
-    data: {
-      labels: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
-      datasets: [
-        {
-          label: "Data One",
-          backgroundColor: "#f87979",
-          data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11],
-        },
-      ],
-    },
-    options: {
-      responsive: true, // 是否自適應寬高
-      maintainAspectRatio: false, // 是否保持比例
-    },
-  },
-  doughnut: {
-    data: {
-      labels: ["Red", "Blue", "Yellow"],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [300, 50, 100],
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
-          ],
-          hoverOffset: 4,
-        },
-      ],
-    },
-    options: {
-      responsive: true, // 是否自適應寬高
-      maintainAspectRatio: false, // 是否保持比例
-    },
-  },
-  pic: {
-    data: {
-      labels: ["Red", "Blue", "Yellow"],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [300, 50, 100],
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
-          ],
-          hoverOffset: 4,
-        },
-      ],
-    },
-    options: {
-      responsive: true, // 是否自適應寬高
-      maintainAspectRatio: false, // 是否保持比例
-    },
-  },
-  polar: {
-    data: {
-      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [11, 16, 7, 3, 14, 5],
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
-            "rgb(75, 192, 192)",
-            "rgb(153, 102, 255)",
-            "rgb(255, 159, 64)",
-          ],
-        },
-      ],
-    },
-    options: {
-      responsive: true, // 是否自適應寬高
-      maintainAspectRatio: false, // 是否保持比例
-    },
-  },
-  radar: {
-    data: {
-      labels: ["Running", "Swimming", "Eating", "Cycling", "Sleeping"], // 定義每個數據點的標籤
-      datasets: [
-        {
-          label: "Person A", // 第一個數據集的標籤
-          data: [65, 59, 90, 81, 56], // 對應每個標籤的數值
-          backgroundColor: "rgba(255, 99, 132, 0.2)", // 數據集的背景顏色
-          borderColor: "rgba(255, 99, 132, 1)", // 數據集的邊框顏色
-          borderWidth: 1, // 邊框寬度
-        },
-        {
-          label: "Person B", // 第二個數據集的標籤
-          data: [28, 48, 40, 19, 96], // 第二個數據集的數值
-          backgroundColor: "rgba(54, 162, 235, 0.2)", // 第二個數據集的背景顏色
-          borderColor: "rgba(54, 162, 235, 1)", // 第二個數據集的邊框顏色
-          borderWidth: 1, // 邊框寬度
-        },
-      ],
-    },
-    options: {
-      responsive: true, // 是否自適應寬高
-      maintainAspectRatio: false, // 是否保持比例
-    },
-  },
-});
+const state = reactive(allDashboard);
 
 const { t } = useI18n();
 </script>

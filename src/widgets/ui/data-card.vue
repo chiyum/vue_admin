@@ -13,7 +13,7 @@
       </div>
     </q-card-section>
     <q-card-section class="data-card-bottom">
-      <span @click="callback">
+      <span class="cursor-pointer" @click="callback">
         {{ btnText }}
       </span>
     </q-card-section>
@@ -53,7 +53,7 @@ defineProps({
     padding: 24px;
   }
   &-bottom {
-    padding: 16px 26px;
+    padding: 14px 26px;
     color: #1976d2;
     font-weight: 500;
     background: #eeeeee;
