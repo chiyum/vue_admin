@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "@/services/i18n-service";
+import { defineModel } from "vue";
+
 const props = defineProps({
   title: {
     type: String,
@@ -37,7 +39,9 @@ const props = defineProps({
 });
 const { t } = useI18n();
 
-const emit = defineEmits(["dismiss", "confirm"]);
+const emit = defineEmits(["dismiss"]);
+
+const showCurrentDialog = defineModel({ type: Boolean, default: false });
 
 const state = reactive({
   showCurrentDialog: props.isShow,
@@ -53,34 +57,30 @@ const onConfirm = () => {
   // state.showCurrentDialog = false;
 };
 
-const onDismiss = () => {
-  emit("dismiss", {
-    isConfirm: state.isConfirm,
-  });
+const onDismiss = (isInitiative = false) => {
+  if (!isInitiative) {
+    emit("dismiss", {
+      isConfirm: false,
+    });
+  }
+  clearState();
+  showCurrentDialog.value = false;
 };
 
-watch(
-  () => props.isShow,
-  (isShow) => {
-    state.showCurrentDialog = isShow;
-    /** 當彈窗為關閉時reset狀態 */
-    if (!isShow) {
-      /** 需要擺在排程最後 所以使用settimeout */
-      setTimeout(() => {
-        clearState();
-      }, 0);
-    }
-  }
-);
+const init = () => {
+  showCurrentDialog.value = props.isShow;
+};
+
+init();
 </script>
 <template>
   <q-dialog
     ref="dialogRef"
-    v-model="state.showCurrentDialog"
+    v-model="showCurrentDialog"
     :full-width="isFullWidth"
     :full-height="isFullHeight"
     :class="[customCss]"
-    @hide="onDismiss"
+    @hide="onDismiss()"
   >
     <q-card class="q-dialog-plugin cutsom-dialog" :class="cardClass">
       <q-card-section class="cutsom-dialog-title">
@@ -91,7 +91,7 @@ watch(
           size="20px"
           name="close"
           class="cursor-pointer"
-          @click="onDismiss"
+          @click="onDismiss(true)"
         ></q-icon>
       </q-card-section>
       <q-separator />

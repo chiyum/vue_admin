@@ -296,14 +296,10 @@
     </DataTable>
     <!-- 用戶資料 -->
     <CustomDialog
-      :is-show="state.detailOption.isShowDialog"
+      v-model="state.detailOption.isShowDialog"
       :title="t('global.MemberData')"
       :has-action="false"
-      @dismiss="
-        () => {
-          state.detailOption.isShowDialog = false;
-        }
-      "
+      @dismiss="onUserDetailtDialogClose"
     >
       <div class="user-detail-dialog">
         <div>
@@ -799,6 +795,10 @@ const deliteUser = (userId, account) => {
         state.isLoading = false;
       });
   });
+};
+
+const onUserDetailtDialogClose = ({ isConfirm }) => {
+  console.log(isConfirm, "isConfirm");
 };
 const init = () => {
   getData();

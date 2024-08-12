@@ -1,0 +1,10 @@
+.chat {
+  & > div {
+    margin-top: 1rem;
+    p {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 0;
+    }
+  }
+}

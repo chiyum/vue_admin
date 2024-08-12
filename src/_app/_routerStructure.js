@@ -3,7 +3,6 @@ class Node {
     const { meta = {} } = data;
     this.name = name;
     this.path = data.path || name;
-    console.log(name, "name");
     this.i18nName = meta.i18nName || `nav.${name}`;
     this.contentLevel = null;
     this.meta = meta;

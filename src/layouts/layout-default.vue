@@ -176,9 +176,9 @@
 </template>
 
 <script setup>
-import DrawerRouter from "@/widgets/layout/DrawerRouter.vue";
-import ResetPassword from "@/widgets/layout/dialog/ResetPassword.vue";
-import ResetNickname from "@/widgets/layout/dialog/ResetNickname.vue";
+import DrawerRouter from "@/widgets/layout/drawerRouter.vue";
+import ResetPassword from "@/widgets/layout/dialog/resetPassword.vue";
+import ResetNickname from "@/widgets/layout/dialog/resetNickname.vue";
 import { useAppStore } from "@/store/app-store";
 import { useAuthStore } from "@/store/auth-store";
 import { useQuasar } from "quasar";

@@ -11,7 +11,6 @@ const _computedRejectData = (payload, { rejectNil, rejectEmpty }) =>
   reduce(
     (result, key) => {
       const value = payload[key];
-      console.log(key, value);
 
       if (rejectNil && isNil(value)) return result;
       if (rejectEmpty && isEmpty(value) && !is(Object, value)) return result;
@@ -22,7 +21,6 @@ const _computedRejectData = (payload, { rejectNil, rejectEmpty }) =>
           rejectNil,
           rejectEmpty,
         });
-        console.log(nestedResult, "nestedResult", key, isEmpty(nestedResult));
         // 判斷 nestedResult 是否為空物件
         if (rejectEmpty && isEmpty(nestedResult)) {
           return result;
