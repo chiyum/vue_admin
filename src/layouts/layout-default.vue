@@ -76,15 +76,21 @@
         </q-btn>
         <q-btn flat dense rounded size="16px" padding="3px 10px" no-caps>
           <div class="d-flex align-center flex-nowrap">
-            <div style="border: 2.5px solid #21ba45" class="rounded-circle">
+            <div
+              style="border: 2.5px solid #21ba45; position: relative"
+              class="rounded-circle"
+            >
+              <q-badge class="notify-red" rounded color="red" floating>{{
+                appStore.notifyLenght
+              }}</q-badge>
               <q-avatar v-if="userData?.profileImg" size="lg">
-                <img :src="userData?.profileImg" />
+                <q-img :src="userData?.profileImg" />
               </q-avatar>
               <q-icon v-else size="lg" color="success" name="account_circle" />
             </div>
             <div class="d-flex flex-column align-start justify-start ml-1">
               <small class="text-weight-bold" style="line-height: 14px">
-                {{ userData?.nickName || t("NoNickName") }}
+                {{ userData?.nickName || t("global.NoNickName") }}
               </small>
               <small
                 :class="$q.dark.isActive ? 'text-blue-grey-3' : 'grey--text'"
@@ -114,12 +120,11 @@
                 <q-item-section>
                   <div class="d-flex flex-row align-center text-left">
                     <q-icon size="16px" class="mr-2" name="vpn_key"></q-icon>
-                    <span>{{ t("ResetPassword") }}</span>
+                    <span>{{ t("global.ResetPassword") }}</span>
                   </div>
                 </q-item-section>
               </q-item>
               <q-item
-                v-if="false"
                 v-ripple
                 tag="label"
                 class="rounded-lg mt-1"
@@ -128,7 +133,7 @@
                 <q-item-section>
                   <div class="d-flex flex-row align-center text-left">
                     <q-icon size="16px" class="mr-2" name="vpn_key"></q-icon>
-                    <span>{{ t("ChangeNickname") }}</span>
+                    <span>{{ t("global.ChangeNickname") }}</span>
                   </div>
                 </q-item-section>
               </q-item>
@@ -141,7 +146,7 @@
                     class="d-flex flex-row align-center text-left justify-center"
                   >
                     <q-icon size="16px" class="mr-2" name="logout"></q-icon>
-                    <span>{{ t("LogOut") }}</span>
+                    <span>{{ t("global.LogOut") }}</span>
                   </div>
                 </q-item-section>
               </q-item>

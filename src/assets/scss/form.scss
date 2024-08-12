@@ -1,0 +1,30 @@
+$gap: 16px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+  min-height: calc(100vh - 100px);
+  &-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-around;
+    align-items: stretch;
+    gap: $gap;
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      flex-wrap: wrap;
+    }
+    &-item {
+      p {
+        margin-top: 1rem;
+        white-space: pre-wrap;
+      }
+    }
+  }
+  &-card {
+    //width: 50%;
+    //@media (max-width: 768px) {
+    //  width: 100%;
+    //}
+  }
+}

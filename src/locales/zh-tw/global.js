@@ -589,6 +589,7 @@ export default {
   IsDaiZhu: "是否為代注",
   ProxyBet: "代注",
   NoNProxyBet: "非代注",
+  NoNickName: "無暱稱",
   BankName: "銀行名稱",
   Settled: "已結算",
   BankCard: "銀行卡",

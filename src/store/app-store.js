@@ -7,6 +7,7 @@ import stroageProvider from "@/services/storage-service";
 export const useAppStore = defineStore("appStore", () => {
   const { setLocale, locale } = useI18n();
   const { provider: storage } = stroageProvider;
+  const notifyLenght = ref(1);
   const langs = ref(LANG_LIST);
   const i18nLang = ref(locale);
   const i18nFormat = computed(() => {
@@ -27,5 +28,5 @@ export const useAppStore = defineStore("appStore", () => {
     i18nLang.value = lang;
   }
 
-  return { langs, i18nLang, i18nFormat, changeI18nLang };
+  return { langs, i18nLang, i18nFormat, changeI18nLang, notifyLenght };
 });
