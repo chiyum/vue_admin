@@ -31,7 +31,6 @@ const _computedRejectData = (payload, { rejectNil, rejectEmpty }) =>
         return assoc(key, nestedResult, result);
       }
 
-      console.log(assoc(key, value, result), "assoc");
       return assoc(key, value, result);
     },
     {},
