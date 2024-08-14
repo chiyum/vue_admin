@@ -46,9 +46,9 @@
         </img-card2>
       </normal-card>
       <img-user-card
-        :action-btn-text="userCardProps.actionBtnText"
-        :title="userCardProps.title"
-        :text="userCardProps.text"
+        :action-btn-text="t(userCardProps.actionBtnText)"
+        :title="t(userCardProps.title)"
+        :text="t(userCardProps.text)"
         :bg-src="userCardProps.bgSrc"
         :photo-src="userCardProps.photoSrc"
       ></img-user-card>
@@ -85,10 +85,10 @@ const imgCar2Props = {
 };
 
 const userCardProps = {
-  title: t("pages.card.img.user.title"),
-  text: t("pages.card.img.user.text"),
+  title: "pages.card.img.user.title",
+  text: "pages.card.img.user.text",
   src: getImageUrl("2.jpg"),
-  actionBtnText: t("pages.card.img.user.follow"),
+  actionBtnText: "pages.card.img.user.follow",
   bgSrc: getImageUrl("5.jpg"),
   photoSrc: getImageUrl("_.jpg"),
 };

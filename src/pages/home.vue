@@ -2,10 +2,10 @@
   <div class="home">
     <div class="home-top">
       <data-card
-        label="Total Revenue"
+        :label="t('global.TotalRevenue')"
         text="$ 1,000,000"
         icon="attach_money"
-        btnText="View Details"
+        :btnText="t('global.ViewDetail')"
         :callback="
           () => {
             console.log('click');
@@ -13,10 +13,10 @@
         "
       />
       <data-card
-        label="Total Revenue"
+        :label="t('global.TotalRevenue')"
         text="$ 1,000,000"
         icon="attach_money"
-        btnText="View Details"
+        :btnText="t('global.ViewDetail')"
         :callback="
           () => {
             console.log('click');
@@ -24,10 +24,10 @@
         "
       />
       <data-card
-        label="Total Revenue"
+        :label="t('global.TotalRevenue')"
         text="$ 1,000,000"
         icon="attach_money"
-        btnText="View Details"
+        :btnText="t('global.ViewDetail')"
         :callback="
           () => {
             console.log('click');
@@ -83,6 +83,7 @@
 </template>
 <script setup>
 import dataCard from "@/widgets/ui/data-card.vue";
+import { useI18n } from "@/services/i18n-service.js";
 import { defineOptions } from "vue";
 import { line2, doughnut2, bar2 } from "@/constants/dashboard.js";
 import {
@@ -126,6 +127,8 @@ defineOptions({
     something: "hello world",
   },
 });
+
+const { t } = useI18n();
 
 const columns = [
   {

@@ -684,6 +684,7 @@ export default {
   AddNewCharacter: "Add Role",
   Keyword: "Keyword Search",
   Ip: "IP",
+  NoNickName: "no nickname",
   PermissionTip: "Please note: clicking will disable",
   PermissionTipRedTItle: "Please note: clicking will",
   SetDefaultSubCommissionRate: "Set default sub-commission rate",
@@ -693,4 +694,5 @@ export default {
   WithdrawConfirm:
     "The balance will be negative after deduction, please confirm!\n",
   ExapmlePage: "Example Page",
+  TotalRevenue: "Total Revenue",
 };

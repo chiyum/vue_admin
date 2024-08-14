@@ -690,4 +690,5 @@ export default {
   OrderFlightKey: "飛單密鑰",
   WithdrawConfirm: "减分後餘額將出現負數，請確認！",
   ExapmlePage: "範例頁面",
+  TotalRevenue: "總收入",
 };
