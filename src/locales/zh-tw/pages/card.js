@@ -15,4 +15,7 @@ export default {
   "data.title": "資料卡片",
   "data.style.title.1": "資料卡片樣式一",
   "data.style.text.1": "直接帶入資料即可",
+  "data.notify.title": "資料卡片樣式二",
+  "data.notify.text":
+    "直接帶入資料即可。接下來就會是假資料。\n歡怎消過發買節棵你升哪而別已掃；有大今教兆過斥再但荷樹出員更亭第鳥「訴」寫飯空哥欠民亮西合，鳥怪麼林甲就男見雪開片巴重尺怪西，且午進隻且。",
 };

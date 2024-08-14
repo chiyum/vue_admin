@@ -71,7 +71,10 @@
           "
         />
       </normal-card>
-      <notify-card></notify-card>
+      <notify-card
+        :title="t(notifyCardProps.title)"
+        :text="t(notifyCardProps.text)"
+      ></notify-card>
     </div>
   </div>
 </template>
@@ -114,6 +117,13 @@ const userCardProps = {
   actionBtnText: "pages.card.img.user.follow",
   bgSrc: getImageUrl("5.jpg"),
   photoSrc: getImageUrl("_.jpg"),
+};
+
+const notifyCardProps = {
+  title: "pages.card.data.notify.title",
+  text: "pages.card.data.notify.text",
+  // confirmBtnText: "pages.card.data.notify.confirm",
+  // cancelBtnText: "pages.card.data.notify.cancel",
 };
 </script>
 <style lang="scss">

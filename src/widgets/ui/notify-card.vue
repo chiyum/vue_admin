@@ -14,22 +14,46 @@
           ></path>
         </svg>
       </span>
-      <p class="alert">New message!</p>
+      <p class="alert">{{ title }}</p>
     </div>
 
     <p class="message">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam ea quo unde
-      vel adipisci blanditiis voluptates eum. Nam, cum minima?
+      {{ text }}
     </p>
 
     <div class="actions">
-      <a class="read" href=""> Take a Look </a>
-
-      <a class="mark-as-read" href=""> Mark as Read </a>
+      <div class="btn read" @click="$emit('confirm')">
+        {{ t(confirmBtnText) }}
+      </div>
+      <div class="btn mark-as-read" @click="$emit('cancel')">
+        {{ t(cancelBtnText) }}
+      </div>
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { useI18n } from "@/services/i18n-service.js";
+const { t } = useI18n();
+defineEmits(["confirm", "cancel"]);
+defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
+  text: {
+    type: String,
+    default: "",
+  },
+  confirmBtnText: {
+    type: String,
+    default: "global.Confirm",
+  },
+  cancelBtnText: {
+    type: String,
+    default: "global.Cancel",
+  },
+});
+</script>
 <style scoped lang="scss">
 .card {
   max-width: 320px;
@@ -69,7 +93,11 @@
 }
 
 .message {
+  white-space: pre-wrap;
   margin-top: 1rem;
+  min-height: 40px;
+  max-height: 80px;
+  overflow-y: scroll;
   color: rgba(107, 114, 128, 1);
 }
 
@@ -77,8 +105,9 @@
   margin-top: 1.5rem;
 }
 
-.actions a {
+.actions .btn {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .mark-as-read,

@@ -123,7 +123,8 @@ const setTableHeightInPage = () => {
   // const tableMiddle = document.querySelector(".q-table__middle");
   const padding = 30;
   const remainHeight = totalHeight - headerHeight - breadcrumbHeight - padding;
-  state.height = `${remainHeight}px`;
+
+  state.height = `${Math.max(remainHeight, 390)}px`;
 };
 
 const setDataTableHeight = () => {
@@ -132,16 +133,15 @@ const setDataTableHeight = () => {
   const parentDom = hadParentTarget
     ? document.querySelector(Props.fullHeightTarget)
     : tableContainer.parentElement;
-  state.height = `${parentDom.offsetHeight}px`;
+  state.height = `${Math.max(parentDom.offsetHeight, 390)}px`;
 };
 
 const setupSetTableHeight = () => {
-  console.log("高度設定判斷");
   switch (true) {
     case Props.fullHeight && Props.isUseInPage:
       setTableHeightInPage();
       break;
-    case Props.fullHeigh:
+    case Props.fullHeight:
       setDataTableHeight();
       break;
   }
@@ -481,7 +481,7 @@ onMounted(() => {
 }
 
 :deep(.q-table__middle) {
-  min-height: 350px;
+  min-height: 200px;
 }
 
 :deep(.q-table__bottom--nodata) {
