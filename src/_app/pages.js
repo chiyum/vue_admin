@@ -13,13 +13,14 @@ for (let path in files) {
     .replace(/(\w+)_([^/]+)(?=\/|$)/g, (match, p1) => {
       return `${p1}/:pathMatch(.*)*`;
     });
+  const dynamicRegex = /(\w+)_([^/]+)(?=\/|$)/g;
   let currentPath = name;
 
   /* /index => / */
   currentPath = currentPath.replace(/\/index$/, "");
 
   /* 處理動態路由 :pathMatch(.*)*為支援多個動態路由 exmaple: page/params1/params2  */
-  currentPath = currentPath.replace(/(\w+)_([^/]+)(?=\/|$)/g, (match, p1) => {
+  currentPath = currentPath.replace(dynamicRegex, (match, p1) => {
     return `${p1}/:pathMatch(.*)*`;
   });
 
@@ -38,10 +39,13 @@ for (let path in files) {
       layout: defaults[path].default.layout || "layout-default",
       // 是否要顯示在左側導航欄
       isHideSidebar: defaults[path].default.isHideSidebar || false,
+      isDisabledBreadcrumb:
+        defaults[path].default.isDisabledBreadcrumb || false, // 是否要顯示麵包屑
       sidebarSort: defaults[path].default.sidebarSort || null, // 左側導航欄排序
       i18nName: defaults[path].default.i18nName || null, // i18n用名稱
       sidebarIcon: defaults[path].default.sidebarIcon || null, // 左側導航欄icon
       i18nRoute: i18Route, // navBar用路由
+      isDynamic: dynamicRegex.test(name), // 是否為動態路由
       // 其他設定檔
       ...meta,
     },

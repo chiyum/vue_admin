@@ -80,9 +80,14 @@
               style="border: 2.5px solid #21ba45; position: relative"
               class="rounded-circle"
             >
-              <q-badge class="notify-red" rounded color="red" floating>{{
-                appStore.notifyLenght
-              }}</q-badge>
+              <q-badge
+                v-show="appStore.notifyLenght"
+                class="notify-red"
+                rounded
+                color="red"
+                floating
+                >{{ appStore.notifyLenght }}</q-badge
+              >
               <q-avatar v-if="userData?.profileImg" size="lg">
                 <q-img :src="userData?.profileImg" />
               </q-avatar>
@@ -169,6 +174,7 @@
 
     <q-page-container>
       <q-page padding>
+        <BreandCrumb />
         <slot />
       </q-page>
     </q-page-container>
@@ -184,6 +190,7 @@
 import DrawerRouter from "@/widgets/layout/drawerRouter.vue";
 import ResetPassword from "@/widgets/layout/dialog/resetPassword.vue";
 import ResetNickname from "@/widgets/layout/dialog/resetNickname.vue";
+import BreandCrumb from "@/widgets/layout/breadcrumb.vue";
 import { useAppStore } from "@/store/app-store";
 import { useAuthStore } from "@/store/auth-store";
 import { useQuasar } from "quasar";

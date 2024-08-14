@@ -31,3 +31,19 @@ export const filterReservedKeys = (obj, reserverdKeys = []) => {
 export const formattedAmount = (number) => {
   return number.toLocaleString();
 };
+
+export const cyclicNumber = (num, range) => {
+  if (range <= 0) {
+    throw new Error("Range must be a positive number");
+  }
+
+  // 計算循環後的數字
+  let result = num % range;
+
+  // 如果結果是負數，將其轉換為正數
+  if (result < 0) {
+    result += range;
+  }
+
+  return result;
+};

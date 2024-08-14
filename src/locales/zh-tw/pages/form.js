@@ -41,4 +41,10 @@ export default {
   "form.age.error.1": "請輸入正確年齡",
   "form.age.error.2": "請輸入年齡",
   "form.accept": "我願意接受所有條款",
+  "other.radio": "Radio",
+  "other.checkbox": "Checkbox",
+  "other.Multiple": "多選Checkbox",
+  "other.range": "Range",
+  "other.slider": "Slider",
+  "other.toggle": "Toggle",
 };
