@@ -47,3 +47,7 @@ export const cyclicNumber = (num, range) => {
 
   return result;
 };
+
+export const getRandomNumber = () => {
+  return Math.floor(Math.random() * 99) + 1;
+};

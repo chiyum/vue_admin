@@ -1,6 +1,7 @@
 <template>
   <q-layout class="layout-default" view="hHh LpR fFf">
     <q-header
+      id="layout-default-header"
       class=""
       :style="$q.dark.isActive ? 'background: #2D2D2D;' : 'background: white;'"
       height-hint="98"
@@ -174,7 +175,7 @@
 
     <q-page-container>
       <q-page padding>
-        <BreandCrumb />
+        <BreandCrumb id="layout-default-breadcrumb" />
         <slot />
       </q-page>
     </q-page-container>

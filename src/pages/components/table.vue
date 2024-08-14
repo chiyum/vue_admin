@@ -1,5 +1,5 @@
 <template>
-  <div class="user-interface full-pages">
+  <div class="table-demo">
     <!-- <q-inner-loading :showing="state.isLoading" label-class="text-teal" label-style="font-size: 1.1em" color="primary" style="z-index: 100;" /> -->
     <DataTable
       v-model="state.pagination"
@@ -9,8 +9,10 @@
       :columns="state.columns"
       :loading="state.isLoading"
       :title="t('global.UserList')"
+      :is-use-in-page="true"
       @request="getData"
     >
+      <!--   手機版本篩選    -->
       <template #mobile-filters>
         <div class="row mt-2">
           <!-- startTime -->
@@ -102,6 +104,7 @@
           </div>
         </div>
       </template>
+      <!--  電腦版本篩選｀    -->
       <template #web-filters>
         <DateAndTime
           v-model="state.tableFilters.startTime"
@@ -162,6 +165,7 @@
           </template>
         </q-input>
       </template>
+      <!--   自定義row欄位顯示及處理   -->
       <template #all-body="{ props }">
         <q-tr>
           <q-td v-for="header in state.columns" :key="header.name">

@@ -53,6 +53,26 @@
         :photo-src="userCardProps.photoSrc"
       ></img-user-card>
     </div>
+    <h3>{{ t("pages.card.data.title") }}</h3>
+    <div class="global-grid global-grid-three">
+      <normal-card :title="t('pages.card.data.style.title.1')">
+        <p class="mb-4">
+          {{ t("pages.card.data.style.text.1") }}
+        </p>
+        <data-card
+          :label="t('global.TotalRevenue')"
+          text="$ 1,000,000"
+          icon="attach_money"
+          :btnText="t('global.ViewDetail')"
+          :callback="
+            () => {
+              console.log('click');
+            }
+          "
+        />
+      </normal-card>
+      <notify-card></notify-card>
+    </div>
   </div>
 </template>
 <script setup>
@@ -60,11 +80,14 @@ import normalCard from "@/widgets/ui/normal-card.vue";
 import imgCard from "@/widgets/ui/img-card.vue";
 import imgCard2 from "@/widgets/ui/img-vertical-action.vue";
 import imgUserCard from "@/widgets/ui/user-card.vue";
+import notifyCard from "@/widgets/ui/notify-card.vue";
+import dataCard from "@/widgets/ui/data-card.vue";
 import { useI18n } from "@/services/i18n-service.js";
 import { useQuasar } from "quasar";
 import getImageUrl from "@/utils/getImageUrl.js";
 const $q = useQuasar();
 const { t } = useI18n();
+
 const notify = (message, color = "primary") => {
   $q.notify({
     message: message,

@@ -12,4 +12,7 @@ export default {
   "img.user.follow": "追蹤",
   "img.user.title": "珍妮",
   "img.user.text": "安安我是珍妮，請多指教",
+  "data.title": "資料卡片",
+  "data.style.title.1": "資料卡片樣式一",
+  "data.style.text.1": "直接帶入資料即可",
 };

@@ -1,56 +1,84 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <script setup>
 import { defineModel } from "vue";
-import { capitalizeFirstLetter } from "@/utils/globalFns.js";
+import { capitalizeFirstLetter, getRandomNumber } from "@/utils/globalFns.js";
 import { useI18n } from "@/services/i18n-service";
 
 const { t } = useI18n();
 const emit = defineEmits(["request", "handlePageChange"]);
 
 const Props = defineProps({
+  // 標題
   title: {
     type: String,
     default: "",
   },
+  // 表格資料
   rows: {
     type: Array,
     default: () => [],
   },
+  // 表頭欄位
   columns: {
     type: Array,
     default: () => [],
   },
+  // 是否顯示loading
   loading: {
     type: Boolean,
     default: false,
   },
+  // 是否隱藏分頁
   hidePagination: {
     type: Boolean,
     default: false,
   },
+  // 分頁資訊
   pagination: {
     type: Object,
     default: () => null,
   },
+  // 無資料時顯示文字
   noDataLabel: {
     type: String,
     default: "",
   },
+  // 是否使用關鍵字搜尋
   isUseKeyword: {
     type: Boolean,
     default: false,
   },
+  // 不顯示的chip過濾條件
   noShowChips: {
     type: Array,
     default: () => [],
   },
+  // 不能收回的chip
   noRemoveChips: {
     type: Array,
     default: () => [],
   },
+  // 電腦版filters 自定義class
   webFiltersClass: {
     type: String,
     default: "",
+  },
+  // table是否撐滿高度
+  fullHeight: {
+    type: Boolean,
+    default: true,
+  },
+  // 撐滿高度的目標 預設table外層的dom
+  fullHeightTarget: {
+    type: String,
+    default: "",
+  },
+  /* 是否使用在layout-default頁面
+   * 是的話高度撐滿的目標為按照layout-default的版型設計
+   */
+  isUseInPage: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -68,6 +96,8 @@ const tableFilters = defineModel("tablefilters", {
 
 const state = reactive({
   showSearch: false,
+  id: `table-${getRandomNumber()}`,
+  height: "auto",
 });
 
 const tablePaginationEvent = ({ pagination }) => {
@@ -80,10 +110,41 @@ const paginationEvent = (currentPage) => {
   emit("request", false);
 };
 
+const setTableHeightInPage = () => {
+  const totalHeight = document.querySelector(".layout-default").offsetHeight;
+  const headerHeight = document.querySelector("#layout-default-header")
+    .offsetHeight;
+  const breadcrumbHeight = document.querySelector("#layout-default-breadcrumb")
+    .offsetHeight;
+  // const tableHeaderHeight = document.querySelector(".q-table__top")
+  //   .offsetHeight;
+  // const tableBottomHeight = document.querySelector(".q-table__bottom")
+  //   .offsetHeight;
+  // const tableMiddle = document.querySelector(".q-table__middle");
+  const padding = 30;
+  const remainHeight = totalHeight - headerHeight - breadcrumbHeight - padding;
+  state.height = `${remainHeight}px`;
+};
+
 const setDataTableHeight = () => {
-  const dom = document.querySelector(".default-table-style");
-  const height = dom.offsetHeight;
-  dom.style.height = `${height - 50}px`;
+  const hadParentTarget = Props.fullHeightTarget !== "";
+  const tableContainer = document.querySelector(".q-table__container");
+  const parentDom = hadParentTarget
+    ? document.querySelector(Props.fullHeightTarget)
+    : tableContainer.parentElement;
+  state.height = `${parentDom.offsetHeight}px`;
+};
+
+const setupSetTableHeight = () => {
+  console.log("高度設定判斷");
+  switch (true) {
+    case Props.fullHeight && Props.isUseInPage:
+      setTableHeightInPage();
+      break;
+    case Props.fullHeigh:
+      setDataTableHeight();
+      break;
+  }
 };
 
 const perPageEvent = () => {
@@ -91,7 +152,8 @@ const perPageEvent = () => {
 };
 
 onMounted(() => {
-  setDataTableHeight();
+  console.log(Props.isUseInPage, Props.fullHeight);
+  setupSetTableHeight();
 });
 </script>
 
@@ -101,11 +163,11 @@ onMounted(() => {
         separator:格線設定
         table-class:自定義class
      -->
-  <div class="relative">
+  <div class="relative data-table">
     <!-- 有傳入分頁資訊就使用分頁 沒有則使用預設 -->
     <q-table
       v-model:pagination="tablePaginaion"
-      :no-data-label="t(noDataLabel || 'NoData')"
+      :no-data-label="t(noDataLabel || t('global.NoData'))"
       color="blue"
       :hide-pagination="hidePagination"
       flat
@@ -115,7 +177,8 @@ onMounted(() => {
       row-key="id"
       separator="cell"
       table-class="default-table-style"
-      style="height: 100%"
+      :id="state.id"
+      :style="{ height: state.height }"
       :title="title"
       :loading="Props.loading"
       :rows-per-page-options="[5, 10, 20, 30, 50, 100, 200]"
@@ -398,7 +461,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .data-table {
-  height: calc(100% - 50px);
+  height: 100%;
 }
 
 .relative {
@@ -415,6 +478,10 @@ onMounted(() => {
 
 :deep(.q-table__top) {
   padding: 0 0;
+}
+
+:deep(.q-table__middle) {
+  min-height: 350px;
 }
 
 :deep(.q-table__bottom--nodata) {
