@@ -2,6 +2,8 @@ export default {
   select: "select功能",
   label: "標題",
   placeholder: "請輸入或這請選擇",
+  "all.base": "Base",
+  "all.normal": "Normal",
   "select.normal": "Normal",
   "select.normal.text":
     "這個方法使用的是slot的方式去顯示選項及選擇。\n這麼做的原因是因為讓語系更動時，不會其他語系變動但選項卻沒變化的問題。推薦使用",
@@ -42,9 +44,22 @@ export default {
   "form.age.error.2": "請輸入年齡",
   "form.accept": "我願意接受所有條款",
   "other.radio": "Radio",
+  "other.radio.text":
+    "在q-radio中，我們用v-model來控制選擇的值，同一個v-model則綁定為一組，只能選擇一個",
   "other.checkbox": "Checkbox",
-  "other.Multiple": "多選Checkbox",
+  "other.checkbox.text": "與普通的checkbox一樣，差別在於quasar有提供擴充選項",
+  "other.checkbox.style": "Checkbox擴充",
+  "other.checkbox.style.text": "可以將checkbox搭配不同的樣式以及label",
+  "other.checkbox.style.label": "是否給予好評",
+  "other.multiple": "多選Checkbox",
+  "other.multiple.text": "Checkbox亦可以使用多選，v-model格式必須為陣列",
   "other.range": "Range",
+  "other.range.text": "可以用來選擇區間",
   "other.slider": "Slider",
+  "other.slider.text": "可以用拖拉的方式控制值的大小",
   "other.toggle": "Toggle",
+  "other.toggle.text": "toggle與Checkbox一樣，差別在於樣式",
+  "tab.text.1": "常見用法，可以搭配q-tab-panels使用",
+  "tab.text.2":
+    "最基礎的用法就是當tab改變，model就會改變，之後根據model來處理對應的事務",
 };

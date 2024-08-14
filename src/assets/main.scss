@@ -474,3 +474,35 @@ h5 {
   height: 16px;
   z-index: 1;
 }
+
+.global-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  &-two {
+    grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &-three {
+    grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &-four {
+    grid-template-columns: repeat(4, 1fr);
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  gap: 1rem;
+}
+
+
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
