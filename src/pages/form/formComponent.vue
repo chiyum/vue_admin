@@ -1,34 +1,33 @@
 <template>
-  <h3>{{ t("pages.form.form.title") }}</h3>
-  <p v-for="item in 3" :key="item">
-    {{ t(`pages.form.form.text.${item}`) }}
-  </p>
   <q-card style="margin-top: 1rem">
     <q-card-section>
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
-        <q-input
-          filled
-          v-model="name"
-          :label="t('pages.form.form.name')"
-          :hint="t('pages.form.form.name.tip')"
-          lazy-rules
-          :rules="[
-            (val) => (val && val.length > 0) || t('pages.form.form.name.error'),
-          ]"
-        />
+        <div class="row form-component">
+          <q-input
+            v-model="name"
+            :label="t('pages.form.form.name')"
+            :hint="t('pages.form.form.name.tip')"
+            lazy-rules
+            :rules="[
+              (val) =>
+                (val && val.length > 0) || t('pages.form.form.name.error'),
+            ]"
+          />
 
-        <q-input
-          filled
-          type="number"
-          v-model="age"
-          :label="t('pages.form.form.age')"
-          lazy-rules
-          :rules="[
-            (val) =>
-              (val !== null && val !== '') || t('pages.form.form.age.error.1'),
-            (val) => (val > 0 && val < 100) || t('pages.form.form.age.error.2'),
-          ]"
-        />
+          <q-input
+            type="number"
+            v-model="age"
+            :label="t('pages.form.form.age')"
+            lazy-rules
+            :rules="[
+              (val) =>
+                (val !== null && val !== '') ||
+                t('pages.form.form.age.error.1'),
+              (val) =>
+                (val > 0 && val < 100) || t('pages.form.form.age.error.2'),
+            ]"
+          />
+        </div>
 
         <q-toggle v-model="accept" :label="t('pages.form.form.accept')" />
 
@@ -45,6 +44,9 @@
       </q-form>
     </q-card-section>
   </q-card>
+  <p v-for="item in 3" :key="item" style="margin-top: 1rem">
+    {{ t(`pages.form.form.text.${item}`) }}
+  </p>
 </template>
 
 <script setup>
@@ -81,3 +83,13 @@ const onSubmit = () => {
   }
 };
 </script>
+<style lang="scss">
+.form-component {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+  gap: 1rem;
+}
+</style>
