@@ -175,6 +175,9 @@ const getData = (isFilter) => {
       state.pagination.rowsNumber = res.data.totalCount;
       state.rows = res.data?.items || [];
       console.log(state.pagination);
+    })
+    .finally(() => {
+      state.isLoading = false;
     });
 
   /* 資料格式 說明

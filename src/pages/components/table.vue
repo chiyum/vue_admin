@@ -652,13 +652,15 @@ const getData = async (isFilter = false) => {
   axios
     .get("/admin/searchUsers", { params, rejectEmpty: true })
     .then(({ data: res }) => {
-      state.isLoading = false;
       if (res.code !== 0) return;
       /** 成功後只更改當前頁面及總筆數 */
       state.pagination.page = res.data.pageNo;
       state.pagination.rowsNumber = res.data.totalCount;
       state.rows = res.data?.items || [];
       console.log(state.pagination);
+    })
+    .finally(() => {
+      state.isLoading = false;
     });
 };
 // const authStore = useAuthStore();
