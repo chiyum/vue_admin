@@ -121,7 +121,7 @@ const setTableHeightInPage = () => {
   // const tableBottomHeight = document.querySelector(".q-table__bottom")
   //   .offsetHeight;
   // const tableMiddle = document.querySelector(".q-table__middle");
-  const padding = 30;
+  const padding = 40;
   const remainHeight = totalHeight - headerHeight - breadcrumbHeight - padding;
 
   state.height = `${Math.max(remainHeight, 390)}px`;

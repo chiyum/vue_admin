@@ -37,6 +37,9 @@ defineProps({
     padding: 8px;
     .body--dark & {
       background: #282827;
+      h5 {
+        color: #d2d2d2;
+      }
     }
     h5 {
       font-size: 0.83rem;

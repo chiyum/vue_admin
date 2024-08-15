@@ -88,9 +88,10 @@
 import DataTable from "@/widgets/action/dataTable.vue";
 import { useI18n } from "@/services/i18n-service.js";
 import { filterReservedKeys } from "@/utils/globalFns.js";
-import axios from "@/services/http-service.js";
+import { useApiStore } from "@/store/api-store.js";
 
 const { t } = useI18n();
+const { getUserList } = useApiStore();
 
 const state = reactive({
   /* 表格欄位 */
@@ -165,8 +166,7 @@ const getData = (isFilter) => {
     },
   };
 
-  axios
-    .get("/admin/searchUsers", { params, rejectEmpty: true })
+  getUserList({ params, rejectEmpty: true })
     .then(({ data: res }) => {
       state.isLoading = false;
       if (res.code !== 0) return;

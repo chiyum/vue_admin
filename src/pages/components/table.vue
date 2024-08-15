@@ -502,12 +502,12 @@
   </div>
 </template>
 <script setup>
-import axios from "@/services/http-service";
 import getImageUrl from "@/utils/getImageUrl";
 import DataTable from "@/widgets/action/dataTable.vue";
 import DateAndTime from "@/widgets/action/dateAndTime.vue";
 import { filterReservedKeys, formattedAmount } from "@/utils/globalFns";
 import dayjs from "dayjs";
+import { useApiStore } from "@/store/api-store.js";
 // import { useAuthStore } from "@/store/auth-store";
 // import { storeToRefs } from "pinia";
 import { useI18n } from "@/services/i18n-service";
@@ -517,6 +517,15 @@ import { useQuasar } from "quasar";
 
 const { t } = useI18n();
 const $q = useQuasar();
+const {
+  getUserList,
+  forceTransfer,
+  muteUser,
+  banUser,
+  setAgent: setAgentApi,
+  deleteUser: deliteUserApi,
+  getUserInfo: getUserInfoApi,
+} = useApiStore();
 
 const state = reactive({
   columns: [
@@ -649,8 +658,7 @@ const getData = async (isFilter = false) => {
     },
   };
 
-  axios
-    .get("/admin/searchUsers", { params, rejectEmpty: true })
+  getUserList({ params, rejectEmpty: true })
     .then(({ data: res }) => {
       if (res.code !== 0) return;
       /** 成功後只更改當前頁面及總筆數 */
@@ -678,14 +686,13 @@ const updateAccounting = (id, username) => {
       Deposit: 9,
       Withdraw: 10,
     };
-    axios
-      .post("/admin/forceTransfer", {
-        agentId: 1,
-        userId: id,
-        transferType: options[selectValue.value],
-        amount: inputValue,
-        memo: memo,
-      })
+    forceTransfer({
+      agentId: 1,
+      userId: id,
+      transferType: options[selectValue.value],
+      amount: inputValue,
+      memo: memo,
+    })
       .then(() => {
         getData();
       })
@@ -703,12 +710,11 @@ const disableChat = (id, isMuted) => {
     cancel: t("global.Cancel"),
   }).onOk(() => {
     state.isLoading = true;
-    axios
-      .post("/admin/muteUser", {
-        agentId: 1,
-        userId: id,
-        isMuted: !isMuted,
-      })
+    muteUser({
+      agentId: 1,
+      userId: id,
+      isMuted: !isMuted,
+    })
       .then(() => {
         getData();
       })
@@ -726,12 +732,11 @@ const disableEnterRoom = (id, isDisabledRoom) => {
     cancel: t("Cancel"),
   }).onOk(() => {
     state.isLoading = true;
-    axios
-      .post("/admin/disableRoomEntryForUser", {
-        agentId: 1,
-        userId: id,
-        isDisabledRoom: !isDisabledRoom,
-      })
+    banUser({
+      agentId: 1,
+      userId: id,
+      isDisabledRoom: !isDisabledRoom,
+    })
       .then(() => {
         getData();
       })
@@ -744,13 +749,12 @@ const disableEnterRoom = (id, isDisabledRoom) => {
 /** 取得用戶詳細資料 */
 const getUserInfo = (userId) => {
   state.isLoading = true;
-  axios
-    .get("/admin/getUserInfo", {
-      params: {
-        agentId: 1,
-        userId: userId,
-      },
-    })
+  getUserInfoApi({
+    params: {
+      agentId: 1,
+      userId: userId,
+    },
+  })
     .then(({ data }) => {
       if (data.code === 0) {
         state.detailOption.detail = data.data;
@@ -768,11 +772,10 @@ const getUserInfo = (userId) => {
 };
 const setAgent = (userId) => {
   state.isLoading = true;
-  axios
-    .post("/admin/setAgent", {
-      agentId: 1,
-      userId,
-    })
+  setAgentApi({
+    agentId: 1,
+    userId,
+  })
     .then(() => {
       getData();
     })
@@ -789,11 +792,10 @@ const deliteUser = (userId, account) => {
     cancel: t("global.Cancel"),
   }).onOk(() => {
     state.isLoading = true;
-    axios
-      .post("/admin/deleteUser", {
-        agentId: 1,
-        userId,
-      })
+    deliteUserApi({
+      agentId: 1,
+      userId,
+    })
       .then(() => {
         getData();
       })
