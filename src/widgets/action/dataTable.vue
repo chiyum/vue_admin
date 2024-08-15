@@ -154,6 +154,7 @@ const perPageEvent = () => {
 onMounted(() => {
   console.log(Props.isUseInPage, Props.fullHeight);
   setupSetTableHeight();
+  window.addEventListener("resize", setupSetTableHeight);
 });
 </script>
 
