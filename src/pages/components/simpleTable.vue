@@ -1,5 +1,15 @@
 <template>
   <div class="simple-table">
+    <!--  帶入參數說明
+        1. v-model="state.pagination" 用來控制分頁
+        2. v-model:tablefilters="state.tableFilters" 用來控制篩選
+        3. :rows="state.rows" 用來顯示資料
+        4. :columns="state.columns" 用來顯示欄位
+        5. :loading="state.isLoading" 用來控制是否載入中
+        6. :title="t('global.UserList')" 用來顯示標題
+        7. :is-use-in-page="true" 是否在畫面滿版 不是的話會根據父層高度決定高度
+        8. @request="getData" 當觸發分頁或篩選時會觸發此事件
+    -->
     <DataTable
       v-model="state.pagination"
       v-model:tablefilters="state.tableFilters"

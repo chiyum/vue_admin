@@ -35,6 +35,9 @@ defineProps({
     display: flex;
     align-items: center;
     padding: 8px;
+    .body--dark & {
+      background: #282827;
+    }
     h5 {
       font-size: 0.83rem;
       font-weight: 400;
@@ -47,6 +50,9 @@ defineProps({
       font-weight: 700;
       font-size: 1.15rem;
       letter-spacing: 0.0125em;
+      .body--dark & {
+        color: #ffffff;
+      }
     }
   }
   &-icon {
@@ -57,6 +63,9 @@ defineProps({
     color: #1976d2;
     font-weight: 500;
     background: #eeeeee;
+    .body--dark & {
+      background: #150f0f;
+    }
   }
 }
 </style>

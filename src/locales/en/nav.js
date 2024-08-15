@@ -14,5 +14,6 @@ export default {
   input: "Input Component",
   helloworld: "Hello World",
   card: "Card",
+  simpleTable: "Simple Table for Copy",
   "params.get": "Get Parameters",
 };

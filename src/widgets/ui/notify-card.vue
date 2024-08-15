@@ -56,12 +56,16 @@ defineProps({
 </script>
 <style scoped lang="scss">
 .card {
-  max-width: 320px;
+  //max-width: 320px;
   border-width: 1px;
   border-color: rgba(219, 234, 254, 1);
   border-radius: 1rem;
   background-color: rgba(255, 255, 255, 1);
   padding: 1rem;
+  .body--dark & {
+    background: rgb(29 29 29);
+    border-color: rgb(64 71 81);
+  }
 }
 
 .header {
@@ -90,6 +94,9 @@ defineProps({
 .alert {
   font-weight: 600;
   color: rgba(107, 114, 128, 1);
+  .body--dark & {
+    color: #ffffff;
+  }
 }
 
 .message {
@@ -99,6 +106,9 @@ defineProps({
   max-height: 80px;
   overflow-y: scroll;
   color: rgba(107, 114, 128, 1);
+  .body--dark & {
+    color: #ffffff;
+  }
 }
 
 .actions {

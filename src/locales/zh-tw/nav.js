@@ -14,5 +14,6 @@ export default {
   input: "Input元件",
   helloworld: "哈囉世界",
   card: "卡片",
+  simpleTable: "複製用簡單表格",
   "params.get": "取得參數",
 };

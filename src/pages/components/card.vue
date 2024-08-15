@@ -54,7 +54,7 @@
       ></img-user-card>
     </div>
     <h3>{{ t("pages.card.data.title") }}</h3>
-    <div class="global-grid global-grid-three">
+    <div class="global-grid global-grid-two">
       <normal-card :title="t('pages.card.data.style.title.1')">
         <p class="mb-4">
           {{ t("pages.card.data.style.text.1") }}
