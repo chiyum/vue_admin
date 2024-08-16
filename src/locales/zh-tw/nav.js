@@ -16,4 +16,7 @@ export default {
   card: "卡片",
   simpleTable: "複製用簡單表格",
   "params.get": "取得參數",
+  illustrate: "說明",
+  button: "按鈕",
+  dialog: "彈窗",
 };

@@ -15,7 +15,7 @@
       <template #header>
         <q-item-section avatar>
           <q-avatar>
-            <q-icon name="notifications_active" />
+            <q-icon color="amber" name="notifications_active" />
           </q-avatar>
         </q-item-section>
 
@@ -54,7 +54,7 @@ const expansionItem = ref(null);
 const state = reactive({
   defaultPosition: {
     x: 0,
-    y: 50,
+    y: 51,
   },
   noticeLength: computed(() => {
     let total = 0;
@@ -106,6 +106,17 @@ onMounted(() => {
   width: 250px;
   background: #ffffff;
   border: 1.5px solid #e9e7ee;
+  :deep(.q-expansion-item__container) {
+    .q-item {
+      height: 48px;
+    }
+  }
+  //.q-expansion-item__container {
+  //  .q-item {
+  //    height: 48px;
+  //  }
+  //}
+
   .body--dark & {
     background: #1e1e1e;
     border: 1.5px solid #2d2d2d;

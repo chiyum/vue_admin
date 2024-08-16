@@ -6,8 +6,6 @@
       <component :is="Component" />
     </router-view>
   </component>
-
-  <the-popup />
 </template>
 
 <script>
