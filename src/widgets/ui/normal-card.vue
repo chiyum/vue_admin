@@ -1,7 +1,9 @@
 <template>
   <q-card class="normal-card" :class="[customClass]">
     <q-card-section class="normal-card-title">
-      <h4>{{ title }}</h4>
+      <slot name="title">
+        <h4>{{ title }}</h4>
+      </slot>
     </q-card-section>
     <!--    <q-separator />-->
     <q-card-section class="normal-card-content">

@@ -185,9 +185,11 @@
       <audio hidden ref="audioPlayer" :src="audioSrc" controls />
     </div>
   </q-layout>
+  <float-info />
 </template>
 
 <script setup>
+import floatInfo from "@/widgets/layout/floatInfo.vue";
 import DrawerRouter from "@/widgets/layout/drawerRouter.vue";
 import ResetPassword from "@/widgets/layout/dialog/resetPassword.vue";
 import ResetNickname from "@/widgets/layout/dialog/resetNickname.vue";

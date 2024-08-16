@@ -33,18 +33,22 @@ const showRouters = computed(() => {
 
 <style lang="scss">
 .body--light {
-  .q-expansion-item__content {
-    margin-left: 18px;
-    padding-left: 4px !important;
-    border-left: 1px solid rgba(0, 0, 0, 0.12);
+  .routeItem {
+    .q-expansion-item__content {
+      margin-left: 18px;
+      padding-left: 4px !important;
+      border-left: 1px solid rgba(0, 0, 0, 0.12);
+    }
   }
 }
 
 .body--dark {
-  .q-expansion-item__content {
-    margin-left: 18px;
-    padding-left: 4px !important;
-    border-left: 1px solid lightgrey;
+  .routeItem {
+    .q-expansion-item__content {
+      margin-left: 18px;
+      padding-left: 4px !important;
+      border-left: 1px solid lightgrey;
+    }
   }
 }
 
