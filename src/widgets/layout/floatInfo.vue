@@ -12,7 +12,15 @@
       caption="John Doe"
       class="float-info"
       ref="expansionItem"
+      expand-icon-toggle
+      v-model="state.isExpanded"
     >
+      <template v-slot:expand-icon="props">
+        <div class="expand-icon-wrapper">
+          <q-icon :name="props.expanded ? 'expand_less' : 'expand_more'" />
+          <div class="expand-icon-overlay" @click.stop.prevent></div>
+        </div>
+      </template>
       <template #header>
         <q-item-section avatar>
           <q-avatar>
@@ -65,6 +73,7 @@ const state = reactive({
     return total;
   }),
   positionType: "fixed",
+  isExpanded: false,
 });
 
 // 通知的資料 需要新增通知時，請在此處新增會自動新增到通知列表中
@@ -87,11 +96,13 @@ const setDefaultPositionX = () => {
   state.defaultPosition.x = documentWidth - currentElementWidht;
 };
 
-const onExpansionItemClick = ({ isMobile }) => {
+const onExpansionItemClick = () => {
+  expansionItem.value.toggle();
+  // console.log("isMobile", isMobile);
   // 因為手機端點擊後有bug，所以利用JS強制觸發開關
-  if (isMobile) {
-    expansionItem.value.toggle();
-  }
+  // if (isMobile) {
+  //   expansionItem.value.toggle();
+  // }
 };
 
 defineExpose({
@@ -134,6 +145,20 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+// 使用偽元素覆蓋整個q-item，讓展開及縮放只通過JS觸發
+:deep(.q-item) {
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    //background: red;
   }
 }
 </style>
