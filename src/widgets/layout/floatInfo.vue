@@ -1,6 +1,7 @@
 <template>
   <float
     :default-position="state.defaultPosition"
+    :position-type="state.positionType"
     @on-click="onExpansionItemClick"
     cursor="default"
   >
@@ -63,6 +64,7 @@ const state = reactive({
     }
     return total;
   }),
+  positionType: "fixed",
 });
 
 // 通知的資料 需要新增通知時，請在此處新增會自動新增到通知列表中

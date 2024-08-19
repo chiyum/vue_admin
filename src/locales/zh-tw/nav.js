@@ -19,4 +19,10 @@ export default {
   illustrate: "說明",
   button: "按鈕",
   dialog: "彈窗",
+  setting: "系統設定",
+  "setting.habit": "使用設置",
+  "setting.habit.float.info": "資訊彈窗顯示與否",
+  "setting.habit.float.on": "開",
+  "setting.habit.float.off": "關",
+  "setting.habit.tab.page": "標籤分頁模式開啟與否",
 };

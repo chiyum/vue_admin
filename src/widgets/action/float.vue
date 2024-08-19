@@ -2,7 +2,7 @@
   <div
     ref="draggableElement"
     :style="{
-      position: 'absolute',
+      position: positionType,
       left: position.x + 'px',
       top: position.y + 'px',
       cursor: cursor,
@@ -35,6 +35,10 @@ const props = defineProps({
   cursor: {
     type: String,
     default: "move",
+  },
+  positionType: {
+    type: String,
+    default: "absolute",
   },
 });
 

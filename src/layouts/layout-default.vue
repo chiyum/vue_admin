@@ -40,7 +40,7 @@
           dense
           round
           :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
-          @click="$q.dark.toggle()"
+          @click="onToggleDarkMode"
         />
         <!-- 多語系 -->
         <q-btn
@@ -82,12 +82,12 @@
               class="rounded-circle"
             >
               <q-badge
-                v-show="appStore.notifyLenght"
+                v-show="appStore.notifyLength"
                 class="notify-red"
                 rounded
                 color="red"
                 floating
-                >{{ appStore.notifyLenght }}</q-badge
+                >{{ appStore.notifyLength }}</q-badge
               >
               <q-avatar v-if="userData?.profileImg" size="lg">
                 <q-img :src="userData?.profileImg" />
@@ -138,8 +138,25 @@
               >
                 <q-item-section>
                   <div class="d-flex flex-row align-center text-left">
-                    <q-icon size="16px" class="mr-2" name="vpn_key"></q-icon>
+                    <q-icon
+                      size="16px"
+                      class="mr-2"
+                      name="manage_accounts"
+                    ></q-icon>
                     <span>{{ t("global.ChangeNickname") }}</span>
+                  </div>
+                </q-item-section>
+              </q-item>
+              <q-item
+                v-ripple
+                tag="label"
+                class="rounded-lg mt-1"
+                @click="CallSystemSettingDialog"
+              >
+                <q-item-section>
+                  <div class="d-flex flex-row align-center text-left">
+                    <q-icon size="16px" class="mr-2" name="settings"></q-icon>
+                    <span>{{ t("nav.setting") }}</span>
                   </div>
                 </q-item-section>
               </q-item>
@@ -185,7 +202,10 @@
       <audio hidden ref="audioPlayer" :src="audioSrc" controls />
     </div>
   </q-layout>
-  <float-info />
+  <!-- 浮標資訊欄 -->
+  <float-info v-if="state.OpenFloatInfo" />
+  <!-- 系統設定彈窗 -->
+  <system-setting-dialog v-model="state.OpenSystemSettingDialog" />
 </template>
 
 <script setup>
@@ -200,6 +220,7 @@ import { useQuasar } from "quasar";
 import dayjs from "dayjs";
 import soundFile from "@/assets/audio/170.mp3";
 import { useI18n } from "@/services/i18n-service";
+import SystemSettingDialog from "@/widgets/dialog/systemSettingDIalog.vue";
 // import { getImageUrl } from "@/utils/getImageUrl";
 
 const audioSrc = ref(soundFile);
@@ -225,6 +246,7 @@ const expireTime = computed(() => {
 
 let state = reactive({
   OpenDrawer: false,
+  OpenSystemSettingDialog: false,
   SlideTransferApplyDialog: {
     Open: false,
     Data: [],
@@ -262,6 +284,7 @@ let state = reactive({
     ],
     IsBtnActionLoading: false,
   },
+  OpenFloatInfo: computed(() => appStore.systemSetting.habit.isOpenFloatInfo),
 });
 
 // const playAudio = () => {
@@ -295,6 +318,14 @@ const CallResetNicknameDialog = () => {
   $q.dialog({
     component: ResetNickname,
   });
+};
+
+const CallSystemSettingDialog = () => {
+  state.OpenSystemSettingDialog = true;
+};
+
+const onToggleDarkMode = () => {
+  appStore.onToggleDarkMode();
 };
 </script>
 
