@@ -1,4 +1,4 @@
-# vue_vite 起手專案
+# vue_admin_start (JS)
 
 ## Version
 
@@ -21,7 +21,7 @@ yarn install
 ### Compiles and minifies for production
 
 ```
-yarn run serve 開發模式
+yarn run dev 開發模式
 yarn build 生產模式
 yarn build:uat 測試模式
 ```
