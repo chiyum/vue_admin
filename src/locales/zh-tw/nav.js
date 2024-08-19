@@ -25,4 +25,5 @@ export default {
   "setting.habit.float.on": "開",
   "setting.habit.float.off": "關",
   "setting.habit.tab.page": "標籤分頁模式開啟與否",
+  "normal-form-illustrate": "常見表單說明",
 };
