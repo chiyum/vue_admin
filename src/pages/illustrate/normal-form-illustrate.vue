@@ -1,8 +1,9 @@
 <template>
   <div class="illustrate-normal-form">
+    <!--  因為normal-form本身內就是搭載q-input等用法，所以與一般使用q-form的用法一樣  -->
     <q-form @submit="onSubmit" @reset="onReset">
       <normal-form v-model="formData" />
-      <div>
+      <div style="padding: 0 1rem">
         <q-btn label="Submit" type="submit" color="primary" />
         <q-btn
           label="Reset"
@@ -13,17 +14,25 @@
         />
       </div>
     </q-form>
-    <ul class="illustrate-normal-form-ul">
-      <li v-for="[key, value] in Object.entries(formData)" :key="key">
-        {{ key }}: {{ value }}
-      </li>
-    </ul>
+    <div class="illustrate-normal-form-tip">
+      <p>
+        {{ t("pages.illustrate.normal-form-illustrate.content") }}
+      </p>
+      <q-card class="illustrate-normal-form-ul">
+        <ul>
+          <li v-for="[key, value] in Object.entries(formData)" :key="key">
+            {{ key }}: {{ value }}
+          </li>
+        </ul>
+      </q-card>
+    </div>
   </div>
 </template>
 <script setup>
 import normalForm from "@/widgets/action/normal-form.vue";
 import { useI18n } from "@/services/i18n-service.js";
 const { t } = useI18n();
+// 使用v-model綁定normal-form
 const formData = ref({
   typeBar1: {
     isTypeBar: true,
@@ -109,7 +118,7 @@ const onReset = () => {
           formData.value[key].value = false;
           break;
         case "radio":
-          formData.value[key].value = "red";
+          formData.value[key].value = value.options[0].value;
           break;
         case "select":
           formData.value[key].value = "";
@@ -121,11 +130,21 @@ const onReset = () => {
 </script>
 <style scoped lang="scss">
 .illustrate-normal-form {
+  margin-top: 2rem;
+  &-tip {
+    width: 75%;
+    margin: 0 auto;
+    p {
+      margin: 1rem 0;
+    }
+  }
   &-ul {
     padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
   }
 }
 </style>
