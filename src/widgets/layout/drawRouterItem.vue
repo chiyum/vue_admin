@@ -11,7 +11,6 @@
       :to="item.path"
       class="rounded-xl px-2"
       dense
-      @click="itemClick(item)"
     >
       <div class="d-flex align-center">
         <q-icon

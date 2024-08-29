@@ -40,6 +40,7 @@ export const useAppStore = defineStore("appStore", () => {
     habit: {
       isOpenFloatInfo: storage.get("floatInfo") ?? true, // 是否開啟漂浮資訊彈窗
       isOpenTabPage: storage.get("tabPage") ?? false, // 是否開啟分頁模式
+      tabPosition: storage.get("tabPagePosition") ?? "bottom", // 有top以及bottom兩種
     },
     // 色調模式 (是否啟用深色模式)
     isDark: storage.get("isDarkMode") ?? false,
@@ -65,6 +66,11 @@ export const useAppStore = defineStore("appStore", () => {
   const onToggleTabPage = (isOn) => {
     systemSetting.habit.isOpenTabPage = isOn;
     storage.set("tabPage", systemSetting.habit.isOpenTabPage);
+  };
+
+  const onChangeTabPosition = (position) => {
+    systemSetting.habit.tabPosition = position;
+    storage.set("tabPagePosition", systemSetting.habit.tabPosition);
   };
 
   /**
@@ -99,5 +105,6 @@ export const useAppStore = defineStore("appStore", () => {
     onToggleTabPage,
     onToggleDarkMode,
     onToggleFloatInfo,
+    onChangeTabPosition,
   };
 });

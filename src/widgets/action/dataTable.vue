@@ -116,13 +116,16 @@ const setTableHeightInPage = () => {
     .offsetHeight;
   const breadcrumbHeight = document.querySelector("#layout-default-breadcrumb")
     .offsetHeight;
+  const tabPageHeight =
+    document.querySelector(".tab-pages-tabs--top")?.offsetHeight ?? 0;
   // const tableHeaderHeight = document.querySelector(".q-table__top")
   //   .offsetHeight;
   // const tableBottomHeight = document.querySelector(".q-table__bottom")
   //   .offsetHeight;
   // const tableMiddle = document.querySelector(".q-table__middle");
   const padding = 40;
-  const remainHeight = totalHeight - headerHeight - breadcrumbHeight - padding;
+  const remainHeight =
+    totalHeight - headerHeight - breadcrumbHeight - tabPageHeight - padding;
 
   state.height = `${Math.max(remainHeight, 390)}px`;
 };

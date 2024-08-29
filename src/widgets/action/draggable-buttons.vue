@@ -17,7 +17,6 @@
       v-bind="otherBind"
       @mousedown.prevent="startDrag($event, index)"
       @touchstart.prevent="startDrag($event, index)"
-      @click.self="callback"
     >
       <slot name="button" :data="button">{{ button.label }}</slot>
     </q-btn>
@@ -40,6 +39,8 @@ const props = defineProps({
     default: () => {},
   },
 });
+
+const emit = defineEmits(["onClick"]);
 
 // 使用 ref 創建響應式數據
 const buttons = ref([...props.initialButtons]); // 複製初始按鈕列表
@@ -159,9 +160,9 @@ const stopDrag = (event) => {
 const handleClick = (button) => {
   const now = new Date().getTime();
   if (now - lastClickTime > DEBOUNCE_TIME) {
-    console.log("Clicked button:", button);
     // 這裡可以添加更多點擊處理邏輯
     lastClickTime = now;
+    emit("onClick", button);
   }
 };
 

@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import createRoutes from "@/_app/routes";
+import { useAppStore } from "@/store/app-store.js";
 
 /* 設定預設導入頁面 */
 const options = {
@@ -19,9 +20,13 @@ const router = createRouter({
 });
 
 export const routes = createRoutes(options);
-// router.beforeEach(async (to, from, next) => {
-//   console.log(from, to);
-//   next();
-// });
+router.beforeEach(async (to, from, next) => {
+  const appStore = useAppStore();
+  if (appStore.systemSetting.habit.isOpenTabPage) {
+    appStore.onAddTabPage(to);
+    console.log(to);
+  }
+  next();
+});
 
 export default router;

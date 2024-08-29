@@ -221,7 +221,7 @@ import { useQuasar } from "quasar";
 import dayjs from "dayjs";
 import soundFile from "@/assets/audio/170.mp3";
 import { useI18n } from "@/services/i18n-service";
-import SystemSettingDialog from "@/widgets/dialog/systemSettingDIalog.vue";
+import SystemSettingDialog from "@/widgets/dialog/system-setting-dialog.vue";
 import TabPages from "@/widgets/layout/tabPages.vue";
 // import { getImageUrl } from "@/utils/getImageUrl";
 

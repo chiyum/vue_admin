@@ -1,5 +1,40 @@
 <template>
   <q-page padding>
+    <draggable-buttons
+      v-if="appStore.systemSetting.habit.tabPosition === 'top'"
+      class="tab-pages-tabs"
+      :class="{
+        'tab-pages-tabs--top':
+          appStore.systemSetting.habit.tabPosition === 'top',
+      }"
+      :initial-buttons="state.opensPages"
+      :other-bind="{ dense: true, color: 'blue-8' }"
+    >
+      <template v-slot:button="{ data }">
+        <div
+          class="tab-pages-tabs-item"
+          @click.self="onChangeCurrentShowTab(data)"
+        >
+          <div class="tab-pages-tabs-item-name">
+            {{ t(data.label) }}
+          </div>
+          <div class="tab-pages-tabs-item-split-btn" @click="onSpiltPage(data)">
+            <q-icon
+              size="14px"
+              color="dark"
+              name="collections_bookmark"
+            ></q-icon>
+          </div>
+          <div
+            class="tab-pages-tabs-item-close-btn"
+            v-if="state.opensPages.length > 1"
+            @click="onCloseTab(data)"
+          >
+            <q-icon size="14px" color="red-6" name="cancel"></q-icon>
+          </div>
+        </div>
+      </template>
+    </draggable-buttons>
     <div
       class="tab-pages"
       :class="{ multiple: state.currentShowPages.length > 1 }"
@@ -9,7 +44,11 @@
           v-for="(page, index) in state.currentShowPages"
           :key="`page-${index}`"
         >
-          <div class="w-full">
+          <div
+            :style="{
+              width: state.currentShowPages.length > 1 ? '50%' : '100%',
+            }"
+          >
             <BreadCrumb :current-page="page" id="layout-default-breadcrumb" />
             <component :is="page.name"></component>
           </div>
@@ -19,6 +58,7 @@
   </q-page>
   <teleport to="body">
     <draggable-buttons
+      v-if="appStore.systemSetting.habit.tabPosition === 'bottom'"
       class="tab-pages-tabs"
       :initial-buttons="state.opensPages"
       :other-bind="{ dense: true, color: 'blue-8' }"
@@ -60,8 +100,6 @@ import { useI18n } from "@/services/i18n-service.js";
 
 const { t } = useI18n();
 const appStore = useAppStore();
-const route = useRoute();
-const router = useRouter();
 const registerAppChildrenComponent = inject("registerComponent");
 const SPLIT_MAX_PAGE = 2;
 // defineProps({
@@ -150,30 +188,6 @@ const transferPage = (page) => {
   };
 };
 
-const setDefaultPage = () => {
-  // 獲取當前的 hash 路徑（去除開頭的 #）
-  const defaultComponentName = matchRoutes[0].redirect.name;
-  const defaultPage = matchRoutes.find(
-    (route) => route.name === defaultComponentName
-  );
-  const currentPath = route.fullPath;
-  // 在 matchRoutes 中查找匹配的路由
-  const matchedRoute = matchRoutes.find((route) => route.path === currentPath);
-
-  if (matchedRoute) {
-    console.log("matchedRoute", matchedRoute);
-    // 如果找到匹配的路由，將其設為預設頁面
-    appStore.onAddTabPage(matchedRoute);
-  } else {
-    // 如果沒有找到匹配的路由，使用第一個路由作為預設
-    const defaultRoute = defaultPage;
-    appStore.onAddTabPage(defaultRoute);
-
-    // 可選：重定向到預設路由
-    router.push(defaultRoute.path);
-  }
-};
-
 // openPage是物件
 const updatePages = (openPages, isSplit = false) => {
   // console.log(openPages, "openPages");
@@ -223,7 +237,8 @@ const updatePages = (openPages, isSplit = false) => {
 };
 
 const onChangeCurrentShowTab = (tab) => {
-  state.currentShowPages = [tab];
+  state.currentShowPages[0] = tab;
+  console.log("onChangeCurrentShowTab", tab);
 };
 
 const onSpiltPage = (spiltPage) => {
@@ -236,7 +251,7 @@ const onCloseTab = (tab) => {
 };
 
 const init = () => {
-  setDefaultPage();
+  // setDefaultPage();
   updatePages(appStore.systemSetting.tabPages);
 };
 
@@ -282,6 +297,10 @@ watch(computedTabPage, (newVal) => {
     bottom: 0;
     right: 0;
     z-index: 1000;
+    &--top {
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
     &-item {
       margin: 0.3rem 0.5rem;
       display: flex;

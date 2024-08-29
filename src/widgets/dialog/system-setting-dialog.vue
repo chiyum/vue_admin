@@ -34,6 +34,20 @@
               ></custom-toggle>
             </div>
           </div>
+          <div class="default-form-style-input" v-if="state.isOpenTabPage">
+            <div class="default-form-style-input-title">
+              {{ t("nav.setting.habit.tab.page.position") }}
+            </div>
+            <div class="default-form-style-input-content">
+              <custom-toggle
+                v-model="state.tabPosition"
+                :text="{
+                  enabledText: t('nav.setting.habit.tab.page.position.bottom'),
+                  disabledText: t('nav.setting.habit.tab.page.position.top'),
+                }"
+              ></custom-toggle>
+            </div>
+          </div>
         </div>
       </div>
     </q-card>
@@ -52,6 +66,7 @@ const isShow = defineModel({ type: Boolean, default: false });
 const state = reactive({
   isOpenFloatInfo: appStore.systemSetting.habit.isOpenFloatInfo,
   isOpenTabPage: appStore.systemSetting.habit.isOpenTabPage,
+  tabPosition: appStore.systemSetting.habit.tabPosition,
 });
 
 const onToggleFloatInfo = (isOn) => {
@@ -60,6 +75,10 @@ const onToggleFloatInfo = (isOn) => {
 
 const onToggleTabPage = (isOn) => {
   appStore.onToggleTabPage(isOn);
+};
+
+const onToggleTabPosition = (isBottom) => {
+  appStore.onChangeTabPosition(isBottom ? "bottom" : "top");
 };
 
 watch(
@@ -73,6 +92,13 @@ watch(
   () => state.isOpenTabPage,
   (boolean) => {
     onToggleTabPage(boolean);
+  }
+);
+
+watch(
+  () => state.tabPosition,
+  (position) => {
+    onToggleTabPosition(position);
   }
 );
 </script>

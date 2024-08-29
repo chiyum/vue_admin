@@ -18,7 +18,6 @@ const { text } = toRefs(props);
 const model = defineModel({ type: Boolean, default: false });
 
 const onClick = () => {
-  console.log("onClick");
   model.value = !model.value;
 };
 
@@ -43,7 +42,7 @@ const onClick = () => {
     <span
       class="basic-setting-switch-input-text basic-setting-switch-input-text-right"
     >
-      {{ text.enabledText }}
+      {{ text.disabledText }}
     </span>
     <span
       class="basic-setting-switch-input-text basic-setting-switch-input-text-left"
