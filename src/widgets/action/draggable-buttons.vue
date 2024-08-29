@@ -168,16 +168,30 @@ const handleClick = (button) => {
 watch(
   () => props.initialButtons,
   (newButtons) => {
-    // 創建一個 Set 來存儲當前 buttons 中的所有 name
-    const existingNames = new Set(buttons.value.map((button) => button.name));
+    console.log("update buttons", newButtons);
 
-    // 過濾出新的按鈕
-    const newButtonsToAdd = newButtons.filter(
-      (button) => !existingNames.has(button.name)
+    // 創建一個 Map 來存儲當前 buttons 中的所有按鈕，以 name 為鍵
+    const currentButtonsMap = new Map(
+      buttons.value.map((button) => [button.name, button])
     );
 
-    // 將新按鈕添加到現有的 buttons 數組末尾
-    buttons.value = [...newButtonsToAdd, ...buttons.value];
+    // 創建一個新的按鈕數組
+    const updatedButtons = [];
+
+    // 遍歷新的按鈕列表
+    newButtons.forEach((newButton) => {
+      if (currentButtonsMap.has(newButton.name)) {
+        // 如果按鈕已存在，使用現有的按鈕（保留可能的拖拽順序）
+        updatedButtons.push(currentButtonsMap.get(newButton.name));
+        currentButtonsMap.delete(newButton.name);
+      } else {
+        // 如果是新按鈕，添加到列表中
+        updatedButtons.push(newButton);
+      }
+    });
+
+    // 更新 buttons.value
+    buttons.value = updatedButtons;
   },
   { deep: true }
 );
@@ -196,9 +210,12 @@ onUnmounted(() => {
 <style scoped>
 .draggable-buttons-container {
   display: flex;
-  flex-wrap: wrap;
-  overflow-x: auto;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
   padding: 10px;
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
   touch-action: pan-y;
 }
 

@@ -35,7 +35,7 @@ export const useAppStore = defineStore("appStore", () => {
   const notifyLength = ref(1);
 
   /* 系統設置 */
-  const systemSetting = ref({
+  const systemSetting = reactive({
     // 使用設置
     habit: {
       isOpenFloatInfo: storage.get("floatInfo") ?? true, // 是否開啟漂浮資訊彈窗
@@ -48,23 +48,23 @@ export const useAppStore = defineStore("appStore", () => {
   });
 
   // 載入時設定顏色模式
-  $q.dark.set(systemSetting.value.isDark);
+  $q.dark.set(systemSetting.isDark);
   const onToggleDarkMode = () => {
-    systemSetting.value.isDark = !systemSetting.value.isDark;
-    storage.set("isDarkMode", systemSetting.value.isDark);
-    $q.dark.set(systemSetting.value.isDark);
+    systemSetting.isDark = !systemSetting.isDark;
+    storage.set("isDarkMode", systemSetting.isDark);
+    $q.dark.set(systemSetting.isDark);
   };
 
   // 是否開啟漂浮資訊彈窗
   const onToggleFloatInfo = (isOn) => {
-    systemSetting.value.habit.isOpenFloatInfo = isOn;
-    storage.set("floatInfo", systemSetting.value.habit.isOpenFloatInfo);
+    systemSetting.habit.isOpenFloatInfo = isOn;
+    storage.set("floatInfo", systemSetting.habit.isOpenFloatInfo);
   };
 
   // 是否開啟分頁模式
   const onToggleTabPage = (isOn) => {
-    systemSetting.value.habit.isOpenTabPage = isOn;
-    storage.set("tabPage", systemSetting.value.habit.isOpenTabPage);
+    systemSetting.habit.isOpenTabPage = isOn;
+    storage.set("tabPage", systemSetting.habit.isOpenTabPage);
   };
 
   /**
@@ -75,13 +75,16 @@ export const useAppStore = defineStore("appStore", () => {
    */
   const onAddTabPage = (pageData) => {
     // component 利用Name下去顯示，所以一開始加入時得先註冊
-    systemSetting.value.tabPages.unshift(pageData);
+    systemSetting.tabPages.unshift(pageData);
   };
 
   const onRemoveTabPage = (pageData) => {
-    systemSetting.value.tabPages = systemSetting.value.tabPages.filter(
-      (item) => item.name !== pageData.name
+    console.log(pageData, "pageData");
+    console.log(systemSetting.tabPages, "systemSetting.tabPages");
+    systemSetting.tabPages = systemSetting.tabPages.filter(
+      (item) => item.path !== pageData.path
     );
+    console.log(systemSetting.tabPages, "systemSetting.tabPages end");
   };
 
   return {

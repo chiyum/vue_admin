@@ -1,12 +1,15 @@
 <template>
   <q-page padding>
-    <div class="tab-pages">
+    <div
+      class="tab-pages"
+      :class="{ multiple: state.currentShowPages.length > 1 }"
+    >
       <Suspense>
         <template
           v-for="(page, index) in state.currentShowPages"
           :key="`page-${index}`"
         >
-          <div>
+          <div class="w-full">
             <BreadCrumb :current-page="page" id="layout-default-breadcrumb" />
             <component :is="page.name"></component>
           </div>
@@ -21,14 +24,14 @@
       :other-bind="{ dense: true, color: 'blue-8' }"
     >
       <template v-slot:button="{ data }">
-        <div class="tab-pages-tabs-item" @click="onChangeCurrentShowTab(data)">
+        <div
+          class="tab-pages-tabs-item"
+          @click.self="onChangeCurrentShowTab(data)"
+        >
           <div class="tab-pages-tabs-item-name">
             {{ t(data.label) }}
           </div>
-          <div
-            class="tab-pages-tabs-item-split-btn"
-            @click="onSpiltPage(data.name)"
-          >
+          <div class="tab-pages-tabs-item-split-btn" @click="onSpiltPage(data)">
             <q-icon
               size="14px"
               color="dark"
@@ -38,6 +41,7 @@
           <div
             class="tab-pages-tabs-item-close-btn"
             v-if="state.opensPages.length > 1"
+            @click="onCloseTab(data)"
           >
             <q-icon size="14px" color="red-6" name="cancel"></q-icon>
           </div>
@@ -56,6 +60,8 @@ import { useI18n } from "@/services/i18n-service.js";
 
 const { t } = useI18n();
 const appStore = useAppStore();
+const route = useRoute();
+const router = useRouter();
 const registerAppChildrenComponent = inject("registerComponent");
 const SPLIT_MAX_PAGE = 2;
 // defineProps({
@@ -71,6 +77,8 @@ const state = reactive({
   currentShowPages: [], // 當前顯示的分頁 ['componentName']
   alreadyRegisterComponent: new Map(),
 });
+
+const computedTabPage = computed(() => [...appStore.systemSetting.tabPages]);
 
 // 定義一個函數來將路由數組扁平化
 const flattenRoutes = (routes) => {
@@ -143,13 +151,27 @@ const transferPage = (page) => {
 };
 
 const setDefaultPage = () => {
+  // 獲取當前的 hash 路徑（去除開頭的 #）
   const defaultComponentName = matchRoutes[0].redirect.name;
   const defaultPage = matchRoutes.find(
     (route) => route.name === defaultComponentName
   );
-  // store的data是未經轉換的components資料 主要邏輯還是在state
-  appStore.onAddTabPage(defaultPage);
-  // 供tab使用
+  const currentPath = route.fullPath;
+  // 在 matchRoutes 中查找匹配的路由
+  const matchedRoute = matchRoutes.find((route) => route.path === currentPath);
+
+  if (matchedRoute) {
+    console.log("matchedRoute", matchedRoute);
+    // 如果找到匹配的路由，將其設為預設頁面
+    appStore.onAddTabPage(matchedRoute);
+  } else {
+    // 如果沒有找到匹配的路由，使用第一個路由作為預設
+    const defaultRoute = defaultPage;
+    appStore.onAddTabPage(defaultRoute);
+
+    // 可選：重定向到預設路由
+    router.push(defaultRoute.path);
+  }
 };
 
 // openPage是物件
@@ -187,7 +209,7 @@ const updatePages = (openPages, isSplit = false) => {
       }
     })
     .filter(Boolean); // 過濾掉可能的 null 值
-  console.log(state.opensPages, "state.opensPages");
+  console.log(state.opensPages, "updatePages's state.opensPages");
   // 是否為分割模式(顯示雙畫面)
   if (isSplit) {
     state.currentShowPages = state.opensPages.filter(
@@ -209,6 +231,10 @@ const onSpiltPage = (spiltPage) => {
   state.currentShowPages = [state.currentShowPages[0], spiltPage];
 };
 
+const onCloseTab = (tab) => {
+  appStore.onRemoveTabPage(tab);
+};
+
 const init = () => {
   setDefaultPage();
   updatePages(appStore.systemSetting.tabPages);
@@ -216,8 +242,8 @@ const init = () => {
 
 init();
 
-watch(appStore.systemSetting.tabPages, (newVal) => {
-  // console.log("更新當前畫面");
+watch(computedTabPage, (newVal) => {
+  console.log("更新當前畫面 computedTabPage");
   updatePages(newVal);
 });
 
@@ -235,6 +261,20 @@ watch(appStore.systemSetting.tabPages, (newVal) => {
 .tab-pages {
   display: flex;
   align-items: stretch;
+  gap: 1rem;
+  &.multiple {
+    position: relative;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 100%;
+      background: #e0e0e0;
+    }
+  }
   &-tabs {
     //max-width: 500px;
     overflow-x: scroll;
