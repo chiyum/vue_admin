@@ -13,7 +13,7 @@ export default defineConfig(({ mode, command }) => {
   const port = 8080;
   // const prodMock = process.env.VITE_PROD_MOCK === "true"; // 當設定檔為true時，build的專案也啟用mockserver
   return {
-    base: "./",
+    base: "/vue_admin/", // 設置基礎路徑 為了配合github action
     plugins: [
       vue({
         template: { transformAssetUrls },
