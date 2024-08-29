@@ -15,7 +15,10 @@
           class="tab-pages-tabs-item"
           @click.self="onChangeCurrentShowTab(data)"
         >
-          <div class="tab-pages-tabs-item-name">
+          <div
+            class="tab-pages-tabs-item-name"
+            @click="onChangeCurrentShowTab(data)"
+          >
             {{ t(data.label) }}
           </div>
           <div class="tab-pages-tabs-item-split-btn" @click="onSpiltPage(data)">
@@ -68,7 +71,10 @@
           class="tab-pages-tabs-item"
           @click.self="onChangeCurrentShowTab(data)"
         >
-          <div class="tab-pages-tabs-item-name">
+          <div
+            class="tab-pages-tabs-item-name"
+            @click="onChangeCurrentShowTab(data)"
+          >
             {{ t(data.label) }}
           </div>
           <div class="tab-pages-tabs-item-split-btn" @click="onSpiltPage(data)">
@@ -237,8 +243,8 @@ const updatePages = (openPages, isSplit = false) => {
 };
 
 const onChangeCurrentShowTab = (tab) => {
+  console.log("onChangeCurrentShowTab~~~~~~~~~~~~~~~~~~~~~~", tab);
   state.currentShowPages[0] = tab;
-  console.log("onChangeCurrentShowTab", tab);
 };
 
 const onSpiltPage = (spiltPage) => {
@@ -302,7 +308,7 @@ watch(computedTabPage, (newVal) => {
       margin-bottom: 0.5rem;
     }
     &-item {
-      margin: 0.3rem 0.5rem;
+      padding: 0.3rem 0.5rem;
       display: flex;
       align-items: center;
       gap: 0.2rem;
