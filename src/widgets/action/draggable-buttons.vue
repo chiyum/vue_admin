@@ -216,17 +216,18 @@ onUnmounted(() => {
 .draggable-button.insert-after::after {
   content: "";
   position: absolute;
-  top: 20%;
-  bottom: 20%;
-  width: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 100%;
   background-color: #1976d2;
 }
 
 .draggable-button.insert-before::before {
-  left: -1px;
+  left: -4px;
 }
 
 .draggable-button.insert-after::after {
-  right: -1px;
+  right: -4px;
 }
 </style>

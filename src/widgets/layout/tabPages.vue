@@ -1,14 +1,16 @@
 <template>
   <q-page padding>
-    <BreadCrumb id="layout-default-breadcrumb" />
-    {{ state.currentShowPages }} / openTabs {{ state.opensPages.length }}
     <div class="tab-pages">
       <Suspense>
-        <component
+        <template
           v-for="(page, index) in state.currentShowPages"
-          :is="page"
           :key="`page-${index}`"
-        ></component>
+        >
+          <div>
+            <BreadCrumb :current-page="page" id="layout-default-breadcrumb" />
+            <component :is="page.name"></component>
+          </div>
+        </template>
       </Suspense>
     </div>
   </q-page>
@@ -19,10 +21,7 @@
       :other-bind="{ dense: true, color: 'blue-8' }"
     >
       <template v-slot:button="{ data }">
-        <div
-          class="tab-pages-tabs-item"
-          @click="onChangeCurrentShowTab(data.name)"
-        >
+        <div class="tab-pages-tabs-item" @click="onChangeCurrentShowTab(data)">
           <div class="tab-pages-tabs-item-name">
             {{ t(data.label) }}
           </div>
@@ -48,7 +47,7 @@
   </teleport>
 </template>
 <script setup>
-import BreadCrumb from "@/widgets/layout/breadcrumb.vue";
+import BreadCrumb from "@/widgets/layout/breadcrumb-mutiple.vue";
 import draggableButtons from "@/widgets/action/draggable-buttons.vue";
 import { routes } from "@/services/router-service.js";
 import { drawerRouters } from "@/_app/pages.js";
@@ -112,7 +111,7 @@ const onMatchRoutes = (firstArray, secondArray) => {
 
 // 調用 matchRoutes 函數進行路由匹配
 const matchRoutes = onMatchRoutes(drawerRouters, routes);
-console.log(matchRoutes, "matchRoutes");
+// console.log(matchRoutes, "matchRoutes");
 
 // component 利用Name下去顯示，所以一開始加入時得先註冊
 const checkComponentHasRegister = (name, component) => {
@@ -132,12 +131,14 @@ const registerComponent = (name, component) => {
 
 const transferPage = (page) => {
   const safeName = `page-${page.name.replace(/\//g, "")}`;
-  console.log(page.multipleUseComponent, "page.multipleUseComponent");
+  // console.log(page.multipleUseComponent, "page.multipleUseComponent");
   return {
     name: safeName,
     originName: page.name,
     label: page.i18nName, // 後續再增加i18n
     component: page.multipleUseComponent,
+    meta: page.meta,
+    path: page.matchPath,
   };
 };
 
@@ -153,7 +154,7 @@ const setDefaultPage = () => {
 
 // openPage是物件
 const updatePages = (openPages, isSplit = false) => {
-  console.log(openPages, "openPages");
+  // console.log(openPages, "openPages");
   state.opensPages = openPages
     .map((page) => {
       // 處理特殊情況：如果 path 以 /default 結尾，將其替換為 /:pathMatch(.*)*
@@ -170,12 +171,13 @@ const updatePages = (openPages, isSplit = false) => {
         // 使用匹配的路由數據
         const proceedItem = transferPage({
           ...matchedRoute,
+          matchPath,
           name: matchedRoute.name || page.name, // 如果 matchedRoute 沒有 name，使用 page.name
           i18nName: matchedRoute.i18nName || page.i18nName,
         });
 
         // 註冊掛載 component
-        console.log(proceedItem.component, "即將註冊的component");
+        // console.log(proceedItem.component, "即將註冊的component");
         registerComponent(proceedItem.name, proceedItem.component);
 
         return proceedItem;
@@ -185,23 +187,21 @@ const updatePages = (openPages, isSplit = false) => {
       }
     })
     .filter(Boolean); // 過濾掉可能的 null 值
-
   console.log(state.opensPages, "state.opensPages");
-
   // 是否為分割模式(顯示雙畫面)
   if (isSplit) {
-    state.currentShowPages = state.opensPages
-      .filter((page, index) => index < SPLIT_MAX_PAGE)
-      .map((page) => page.name);
+    state.currentShowPages = state.opensPages.filter(
+      (page, index) => index < SPLIT_MAX_PAGE
+    );
   } else {
     // 當前顯示的分頁
     state.currentShowPages =
-      state.opensPages.length > 0 ? [state.opensPages[0].name] : [];
+      state.opensPages.length > 0 ? [state.opensPages[0]] : [];
   }
 };
 
-const onChangeCurrentShowTab = (tabName) => {
-  state.currentShowPages = [tabName];
+const onChangeCurrentShowTab = (tab) => {
+  state.currentShowPages = [tab];
 };
 
 const onSpiltPage = (spiltPage) => {
@@ -217,7 +217,7 @@ const init = () => {
 init();
 
 watch(appStore.systemSetting.tabPages, (newVal) => {
-  console.log("更新當前畫面");
+  // console.log("更新當前畫面");
   updatePages(newVal);
 });
 
