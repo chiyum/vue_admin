@@ -58,10 +58,21 @@ const onToggleFloatInfo = (isOn) => {
   appStore.onToggleFloatInfo(isOn);
 };
 
+const onToggleTabPage = (isOn) => {
+  appStore.onToggleTabPage(isOn);
+};
+
 watch(
   () => state.isOpenFloatInfo,
   (boolean) => {
     onToggleFloatInfo(boolean);
+  }
+);
+
+watch(
+  () => state.isOpenTabPage,
+  (boolean) => {
+    onToggleTabPage(boolean);
   }
 );
 </script>

@@ -131,6 +131,7 @@ export const createSidebarStructure = (modules) => {
   processHierarchy(hierarchy);
   sortHierarchy(hierarchy);
   const rootChildren = hierarchy.toObjectWithArrayChildren().children;
+  console.log(rootChildren);
   return rootChildren;
 };
 

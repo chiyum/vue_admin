@@ -1,5 +1,14 @@
+<template>
+  <div class="routeItem pa-2 q-gutter-y-xs">
+    <drawRouterItem
+      v-for="(item, index) in showRouters"
+      :key="item.i18nName + index"
+      :item="item"
+      @item-click="onOpenTabPage"
+    />
+  </div>
+</template>
 <script setup>
-/** @desc 最多支援三層 */
 import { drawerRouters } from "@/_app/pages";
 import drawRouterItem from "@/widgets/layout/drawRouterItem.vue";
 
@@ -18,16 +27,6 @@ const showRouters = computed(() => {
 // };
 // init();
 </script>
-
-<template>
-  <div class="routeItem pa-2 q-gutter-y-xs">
-    <drawRouterItem
-      v-for="(item, index) in showRouters"
-      :key="item.i18nName + index"
-      :item="item"
-    />
-  </div>
-</template>
 
 <!-- Css -->
 

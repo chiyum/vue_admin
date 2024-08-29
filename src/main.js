@@ -23,6 +23,11 @@ import "@fortawesome/fontawesome-free/js/all";
 const app = createApp(App);
 const pinia = createPinia();
 app.provide("$jQuery", jquery);
+// 註冊函數 用於多分頁
+app.provide("registerComponent", (name, component) => {
+  console.log("registerComponentName:", name);
+  app.component(name, component);
+});
 app.use(pinia);
 app.use(layouts);
 app.use(directives);

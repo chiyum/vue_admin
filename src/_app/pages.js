@@ -50,6 +50,7 @@ for (let path in files) {
       ...meta,
     },
     component: files[path], //頁面component
+    multipleUseComponent: defaults[path].default,
   });
 }
 

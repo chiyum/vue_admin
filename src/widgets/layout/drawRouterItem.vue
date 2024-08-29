@@ -11,6 +11,7 @@
       :to="item.path"
       class="rounded-xl px-2"
       dense
+      @click="itemClick(item)"
     >
       <div class="d-flex align-center">
         <q-icon
@@ -37,6 +38,7 @@
         v-for="(child, index) in item.children"
         :key="child.i18nName + index"
         :item="child"
+        @item-click="itemClick(item)"
       />
     </q-expansion-item>
   </div>
@@ -44,6 +46,7 @@
 
 <script setup>
 import { useI18n } from "@/services/i18n-service.js";
+import { useAppStore } from "@/store/app-store.js";
 
 // 定義 props
 defineProps({
@@ -52,8 +55,20 @@ defineProps({
     required: true,
   },
 });
+const appStore = useAppStore();
 
 const { t } = useI18n();
+
+const state = reactive({
+  openTabPages: computed(() => appStore.systemSetting.habit.isOpenTabPage),
+});
+
+const itemClick = (item) => {
+  console.log(item, "itemClick");
+  if (state.openTabPages) {
+    appStore.onAddTabPage(item);
+  }
+};
 
 /**
  * 設定父層icon

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <custom-tab v-model="currentTab" :initial-tabs="tabs" />
+    <custom-tab
+      v-model="currentTab"
+      :other-bind="{ dense: true }"
+      :initial-tabs="tabs"
+    />
   </div>
 </template>
 <script setup>

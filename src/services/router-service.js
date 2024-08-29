@@ -18,6 +18,7 @@ const router = createRouter({
   },
 });
 
+export const routes = createRoutes(options);
 // router.beforeEach(async (to, from, next) => {
 //   console.log(from, to);
 //   next();

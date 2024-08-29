@@ -191,7 +191,8 @@
     </q-drawer>
 
     <q-page-container>
-      <q-page padding>
+      <tab-pages v-if="state.OpenTabPages" />
+      <q-page padding v-else>
         <BreandCrumb id="layout-default-breadcrumb" />
         <slot />
       </q-page>
@@ -221,6 +222,7 @@ import dayjs from "dayjs";
 import soundFile from "@/assets/audio/170.mp3";
 import { useI18n } from "@/services/i18n-service";
 import SystemSettingDialog from "@/widgets/dialog/systemSettingDIalog.vue";
+import TabPages from "@/widgets/layout/tabPages.vue";
 // import { getImageUrl } from "@/utils/getImageUrl";
 
 const audioSrc = ref(soundFile);
@@ -285,6 +287,7 @@ let state = reactive({
     IsBtnActionLoading: false,
   },
   OpenFloatInfo: computed(() => appStore.systemSetting.habit.isOpenFloatInfo),
+  OpenTabPages: computed(() => appStore.systemSetting.habit.isOpenTabPage),
 });
 
 // const playAudio = () => {

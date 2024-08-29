@@ -43,6 +43,8 @@ export const useAppStore = defineStore("appStore", () => {
     },
     // 色調模式 (是否啟用深色模式)
     isDark: storage.get("isDarkMode") ?? false,
+    // 當前開啟的分頁
+    tabPages: [],
   });
 
   // 載入時設定顏色模式
@@ -65,6 +67,23 @@ export const useAppStore = defineStore("appStore", () => {
     storage.set("tabPage", systemSetting.value.habit.isOpenTabPage);
   };
 
+  /**
+   * @typedef {Object} pageData
+   * @property {string} id 成員識別碼
+   * @property {string} type 訂購項目
+   * @property {string} count 訂購數量
+   */
+  const onAddTabPage = (pageData) => {
+    // component 利用Name下去顯示，所以一開始加入時得先註冊
+    systemSetting.value.tabPages.unshift(pageData);
+  };
+
+  const onRemoveTabPage = (pageData) => {
+    systemSetting.value.tabPages = systemSetting.value.tabPages.filter(
+      (item) => item.name !== pageData.name
+    );
+  };
+
   return {
     langs,
     i18nLang,
@@ -72,6 +91,8 @@ export const useAppStore = defineStore("appStore", () => {
     changeI18nLang,
     notifyLength,
     systemSetting,
+    onAddTabPage,
+    onRemoveTabPage,
     onToggleTabPage,
     onToggleDarkMode,
     onToggleFloatInfo,
