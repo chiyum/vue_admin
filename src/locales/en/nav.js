@@ -1,6 +1,6 @@
 export default {
   home: "Home",
-  routeExample: "Route Example",
+  routeexample: "Route Example",
   params: "Parameters",
   components: "Components",
   form: "Form",

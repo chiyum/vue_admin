@@ -19,7 +19,7 @@
             class="tab-pages-tabs-item-name"
             @click="onChangeCurrentShowTab(data)"
           >
-            {{ t(data.label) }}
+            {{ t(data?.label ?? "") }}
           </div>
           <div class="tab-pages-tabs-item-split-btn" @click="onSpiltPage(data)">
             <q-icon
@@ -187,7 +187,7 @@ const transferPage = (page) => {
   return {
     name: safeName,
     originName: page.name,
-    label: page.i18nName, // 後續再增加i18n
+    label: page.i18nName || page?.meta?.i18nName, // 後續再增加i18n
     component: page.multipleUseComponent,
     meta: page.meta,
     path: page.matchPath,

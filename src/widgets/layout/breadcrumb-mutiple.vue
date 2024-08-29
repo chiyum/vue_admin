@@ -4,7 +4,7 @@
       <q-breadcrumbs-el
         v-for="breadcrumb in breadcrumbs"
         :key="breadcrumb.path"
-        :label="t(breadcrumb.name)"
+        :label="t(breadcrumb?.name ?? '')"
         :icon="breadcrumb.icon"
       />
     </q-breadcrumbs>
@@ -41,6 +41,7 @@ const matchIcon = (index) => {
 
 const handleBreadcrumbNavigation = (currentPage) => {
   const pathSegments = currentPage.path
+    .replace("/:pathMatch(.*)*", "")
     .replace(/^(\/|\/+)/, "")
     .split("/")
     .filter(Boolean);
@@ -49,7 +50,7 @@ const handleBreadcrumbNavigation = (currentPage) => {
     const path = "/" + pathSegments.slice(0, index + 1).join("/");
     const isLast = index === pathSegments.length - 1;
     return {
-      name: isLast ? currentPage.label : `nav.${segment}`,
+      name: isLast ? currentPage.meta.i18nName : `nav.${segment}`,
       path: path,
       icon: matchIcon(index),
     };

@@ -85,12 +85,10 @@ export const useAppStore = defineStore("appStore", () => {
   };
 
   const onRemoveTabPage = (pageData) => {
-    console.log(pageData, "pageData");
-    console.log(systemSetting.tabPages, "systemSetting.tabPages");
+    const path = pageData.path.replace("/:pathMatch(.*)*", "/default");
     systemSetting.tabPages = systemSetting.tabPages.filter(
-      (item) => item.path !== pageData.path
+      (item) => item.path !== path
     );
-    console.log(systemSetting.tabPages, "systemSetting.tabPages end");
   };
 
   return {
