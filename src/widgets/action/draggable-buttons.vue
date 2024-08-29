@@ -211,17 +211,17 @@ onUnmounted(() => {
 .draggable-buttons-container {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: flex-end;
-  padding: 10px;
-  width: 100%;
-  overflow-x: scroll;
+  justify-content: flex-start;
+  max-width: 100%;
+  overflow-x: auto;
   white-space: nowrap;
-  touch-action: pan-y;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 .draggable-button {
+  flex-shrink: 0;
   touch-action: none;
-  position: relative;
 }
 
 .draggable-button.is-dragging {
