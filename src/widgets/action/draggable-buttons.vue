@@ -208,11 +208,12 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .draggable-buttons-container {
   display: flex;
   flex-wrap: nowrap;
   justify-content: flex-start;
+  padding: 0.25rem 0; // 為了手機可以滑動需要加間隔
   max-width: 100%;
   overflow-x: auto;
   white-space: nowrap;
