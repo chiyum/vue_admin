@@ -40,8 +40,10 @@ const matchIcon = (index) => {
 };
 
 const handleBreadcrumbNavigation = (currentPage) => {
+  const isDynamic = currentPage.path.endsWith("/:pathMatch(.*)*");
+  if (isDynamic)
+    currentPage.path = currentPage.path.replace(/\/:pathMatch\(\.\*\)\*$/, "");
   const pathSegments = currentPage.path
-    .replace("/:pathMatch(.*)*", "")
     .replace(/^(\/|\/+)/, "")
     .split("/")
     .filter(Boolean);
@@ -49,8 +51,10 @@ const handleBreadcrumbNavigation = (currentPage) => {
   return pathSegments.map((segment, index) => {
     const path = "/" + pathSegments.slice(0, index + 1).join("/");
     const isLast = index === pathSegments.length - 1;
+    console.log(currentPage.meta.i18nName);
+    const i18nName = currentPage.meta.i18nName || `nav.${segment}`;
     return {
-      name: isLast ? currentPage.meta.i18nName : `nav.${segment}`,
+      name: isLast ? i18nName : `nav.${segment}`,
       path: path,
       icon: matchIcon(index),
     };
