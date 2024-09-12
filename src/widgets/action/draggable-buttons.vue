@@ -169,7 +169,7 @@ const handleClick = (button) => {
 watch(
   () => props.initialButtons,
   (newButtons) => {
-    console.log("update buttons", newButtons);
+    console.log("update buttons~~~", newButtons);
 
     // 創建一個 Map 來存儲當前 buttons 中的所有按鈕，以 name 為鍵
     const currentButtonsMap = new Map(

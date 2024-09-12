@@ -4,11 +4,14 @@ import { LANG_LIST } from "@/constants/lang";
 import { useI18n } from "@/services/i18n-service";
 import { useQuasar } from "quasar";
 import stroageProvider from "@/services/storage-service";
+import { useRoute } from "vue-router";
 
 export const useAppStore = defineStore("appStore", () => {
   const { provider: storage } = stroageProvider;
   /* 語系設置 */
   const { setLocale, locale } = useI18n();
+  const route = useRoute();
+  console.log(route);
   const $q = useQuasar();
   const langs = ref(LANG_LIST);
   const i18nLang = ref(locale);
@@ -66,6 +69,9 @@ export const useAppStore = defineStore("appStore", () => {
   const onToggleTabPage = (isOn) => {
     systemSetting.habit.isOpenTabPage = isOn;
     storage.set("tabPage", systemSetting.habit.isOpenTabPage);
+    // if (isOn) {
+    //   onAddTabPage(route);
+    // }
   };
 
   const onChangeTabPosition = (position) => {

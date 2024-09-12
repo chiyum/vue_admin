@@ -229,7 +229,7 @@ const updatePages = (openPages, isSplit = false) => {
       }
     })
     .filter(Boolean); // 過濾掉可能的 null 值
-  console.log(state.opensPages, "updatePages's state.opensPages");
+  // console.log(state.opensPages, "updatePages's state.opensPages");
   // 是否為分割模式(顯示雙畫面)
   if (isSplit) {
     state.currentShowPages = state.opensPages.filter(
@@ -243,7 +243,7 @@ const updatePages = (openPages, isSplit = false) => {
 };
 
 const onChangeCurrentShowTab = (tab) => {
-  console.log("onChangeCurrentShowTab~~~~~~~~~~~~~~~~~~~~~~", tab);
+  // console.log("onChangeCurrentShowTab~~~~~~~~~~~~~~~~~~~~~~", tab);
   state.currentShowPages[0] = tab;
 };
 
@@ -258,13 +258,15 @@ const onCloseTab = (tab) => {
 
 const init = () => {
   // setDefaultPage();
+  state.opensPages = [];
+  // console.log(state.opensPages, "init's state.opensPages");
+  // console.log("init", appStore.systemSetting.tabPages);
   updatePages(appStore.systemSetting.tabPages);
 };
 
 init();
 
 watch(computedTabPage, (newVal) => {
-  console.log("更新當前畫面 computedTabPage");
   updatePages(newVal);
 });
 
